@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Framework Library Graph</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="graph.js"></script>
+<style>
+    :root {
+        --bg: #1A2332;
+        --bg-elev: #223042;
+        --panel: #1E2A3A;
+        --border: #2F4055;
+        --copper: #B7704F;
+        --cyan: #00D4FF;
+        --white: #F5F7FA;
+        --muted: #7A8B9E;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+        background: var(--bg);
+        color: var(--white);
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    #app { display: grid; grid-template-columns: 260px 1fr 340px; height: 100vh; }
+
+    aside {
+        background: var(--panel);
+        border-right: 1px solid var(--border);
+        overflow-y: auto;
+        padding: 16px;
+    }
+    aside.right { border-right: none; border-left: 1px solid var(--border); }
+
+    h1 { font-size: 14px; font-weight: 600; color: var(--cyan); margin-bottom: 4px; letter-spacing: 0.5px; }
+    h2 { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 8px; }
+    p.sub { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+
+    .search { width: 100%; padding: 8px 10px; background: var(--bg); color: var(--white); border: 1px solid var(--border); border-radius: 4px; font-size: 13px; outline: none; }
+    .search:focus { border-color: var(--cyan); }
+
+    .series-list { display: flex; flex-direction: column; gap: 2px; max-height: 46vh; overflow-y: auto; padding-right: 4px; }
+    .series-item { display: flex; align-items: center; gap: 8px; padding: 4px 6px; border-radius: 3px; cursor: pointer; font-size: 12px; user-select: none; }
+    .series-item:hover { background: var(--bg-elev); }
+    .series-item.active { background: var(--bg-elev); color: var(--cyan); }
+    .series-swatch { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .series-count { color: var(--muted); margin-left: auto; font-size: 11px; }
+
+    .button { display: block; width: 100%; padding: 6px 10px; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 3px; font-size: 11px; text-align: center; cursor: pointer; margin-top: 6px; }
+    .button:hover { color: var(--cyan); border-color: var(--cyan); }
+
+    .legend-row { display: flex; align-items: center; gap: 8px; font-size: 11px; margin-bottom: 4px; color: var(--muted); }
+    .legend-swatch { width: 12px; height: 12px; border-radius: 50%; }
+    .legend-edge { width: 18px; height: 2px; }
+
+    svg { width: 100%; height: 100%; display: block; cursor: grab; background: var(--bg); }
+    svg:active { cursor: grabbing; }
+
+    .node { cursor: pointer; stroke-width: 1px; }
+    .node.compound { stroke: var(--copper); stroke-width: 2px; }
+    .node:hover { stroke: var(--cyan); stroke-width: 2px; }
+    .node.dim { opacity: 0.2; }
+    .node.selected { stroke: var(--cyan); stroke-width: 3px; }
+
+    .link { stroke-opacity: 0.6; fill: none; }
+    .link.dim { stroke-opacity: 0.08; marker-end: none; }
+
+    .node-label { pointer-events: none; font-size: 9px; fill: var(--muted); text-anchor: middle; }
+    .node-label.visible { fill: var(--white); font-size: 11px; }
+    .node-label.hovered { fill: var(--cyan); font-weight: 600; font-size: 12px !important; paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
+
+    .detail h3 { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 6px; word-wrap: break-word; }
+    .detail .id { font-family: "SF Mono", Menlo, monospace; font-size: 11px; color: var(--cyan); margin-bottom: 12px; }
+    .detail .field { margin-bottom: 10px; }
+    .detail .label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+    .detail .value { font-size: 12px; color: var(--white); word-wrap: break-word; }
+    .detail .synopsis { font-size: 12px; color: var(--white); line-height: 1.55; }
+    .detail .tag { display: inline-block; padding: 2px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; font-size: 10px; color: var(--muted); margin: 2px 4px 2px 0; }
+    .detail .empty { color: var(--muted); font-style: italic; }
+
+    .edge-list { display: flex; flex-direction: column; gap: 4px; }
+    .edge-item { display: flex; align-items: center; gap: 6px; padding: 4px 6px; font-size: 11px; background: var(--bg); border-radius: 3px; cursor: pointer; }
+    .edge-item:hover { background: var(--bg-elev); }
+    .edge-type { font-size: 9px; text-transform: uppercase; color: var(--muted); letter-spacing: 0.5px; min-width: 70px; }
+    .edge-target { color: var(--white); font-family: "SF Mono", Menlo, monospace; font-size: 10px; word-break: break-all; }
+
+    .stats { font-size: 11px; color: var(--muted); }
+    .stats span { color: var(--white); font-weight: 600; }
+
+    .center { display: flex; flex-direction: column; position: relative; }
+
+    /* Opt-in top-bar for demos/recordings: append ?counter=1 to the URL. */
+    .recording-counter { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); z-index: 5; background: rgba(26,35,50,0.9); border: 1px solid var(--border); border-radius: 6px; padding: 10px 22px; font-size: 14px; letter-spacing: 0.5px; color: var(--white); backdrop-filter: blur(8px); display: none; font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+    .recording-counter.on { display: block; }
+    .recording-counter b { color: var(--cyan); font-weight: 600; }
+    .recording-counter .sep { color: var(--border); margin: 0 10px; }
+
+    .mode-toggle { position: absolute; top: 12px; right: 12px; background: rgba(26,35,50,0.85); border: 1px solid var(--border); border-radius: 4px; z-index: 5; backdrop-filter: blur(6px); display: flex; overflow: hidden; }
+    .mode-toggle button { background: transparent; color: var(--muted); border: none; padding: 8px 14px; font-size: 11px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-family: inherit; }
+    .mode-toggle button:hover { color: var(--cyan); }
+    .mode-toggle button.active { background: var(--bg-elev); color: var(--cyan); }
+
+    .card-rect { fill: rgba(30, 42, 58, 0.6); stroke: var(--border); stroke-width: 1px; }
+    .card-title { font-size: 12px; fill: var(--cyan); font-weight: 600; letter-spacing: 1px; text-anchor: start; dominant-baseline: hanging; }
+    .card-count { font-size: 10px; fill: var(--muted); text-anchor: end; dominant-baseline: hanging; }
+</style>
+</head>
+<body>
+<div id="app">
+
+<aside class="left">
+    <h1>FRAMEWORK LIBRARY</h1>
+    <p class="sub">Portable framework graph</p>
+
+    <h2>Search</h2>
+    <input id="search" class="search" type="text" placeholder="Name or tag..." />
+
+    <h2>Series</h2>
+    <div id="series-list" class="series-list"></div>
+    <button class="button" id="reset-filters">Reset filters</button>
+
+    <h2>Node legend</h2>
+    <div class="legend-row"><span class="legend-swatch" style="background:var(--copper)"></span>Compound framework</div>
+    <div class="legend-row"><span class="legend-swatch" style="background:var(--cyan)"></span>Series with edges</div>
+    <div class="legend-row"><span class="legend-swatch" style="background:var(--white)"></span>Standard node</div>
+
+    <h2>Edge legend</h2>
+    <div class="legend-row"><span class="legend-edge" style="background:#00D4FF"></span>depends_on</div>
+    <div class="legend-row"><span class="legend-edge" style="background:#B7704F"></span>extends</div>
+    <div class="legend-row"><span class="legend-edge" style="background:#7A8B9E"></span>related_to</div>
+    <div class="legend-row"><span class="legend-edge" style="background:#E8A37F"></span>triggers</div>
+    <div class="legend-row"><span class="legend-edge" style="background:#D04F5F"></span>conflicts_with</div>
+    <div class="legend-row"><span class="legend-edge" style="background:#4FB7A3"></span>parent_of</div>
+    <div class="legend-row"><span class="legend-edge" style="background:#9B7FE8"></span>child_of</div>
+
+    <h2>Stats</h2>
+    <div class="stats">
+        <div>nodes: <span id="stat-nodes">0</span></div>
+        <div>edges: <span id="stat-edges">0</span></div>
+        <div>visible: <span id="stat-visible">0</span></div>
+    </div>
+</aside>
+
+<main class="center">
+    <div class="recording-counter" id="recording-counter">
+        <b id="rc-nodes">0</b> frameworks<span class="sep">·</span><b id="rc-edges">0</b> edges
+    </div>
+    <div class="mode-toggle">
+        <button id="mode-force" class="active">Force</button>
+        <button id="mode-grid">Grid</button>
+    </div>
+    <svg id="graph"></svg>
+</main>
+
+<aside class="right">
+    <div class="detail" id="detail">
+        <h3>Select a node</h3>
+        <p class="sub">Click any node in the graph to see its detail.</p>
+    </div>
+</aside>
+
+</div>
+
+<script>
+(function() {
+    const data = window.GRAPH_DATA;
+    if (!data) {
+        document.body.innerHTML = '<div style="padding:40px;color:#F5F7FA;font-family:sans-serif">ERROR: graph.js failed to load. Regenerate with <code>python3 tools/graph.py --db library.db --out graph.json</code>.</div>';
+        return;
+    }
+
+    // Edge color palette (by type).
+    const EDGE_COLOR = {
+        depends_on: "#00D4FF",
+        extends: "#B7704F",
+        related_to: "#7A8B9E",
+        triggers: "#E8A37F",
+        conflicts_with: "#D04F5F",
+        parent_of: "#4FB7A3",
+        child_of: "#9B7FE8",
+    };
+
+    // Identify which series have at least one edge (for the "cyan cluster" highlight).
+    const seriesWithEdges = new Set();
+    const byId = new Map(data.nodes.map(n => [n.id, n]));
+    data.edges.forEach(e => {
+        const a = byId.get(e.from);
+        const b = byId.get(e.to);
+        if (a && a.series) seriesWithEdges.add(a.series);
+        if (b && b.series) seriesWithEdges.add(b.series);
+    });
+
+    // Series color assignment — cyan for series that have edges, muted palette for the rest.
+    const SERIES_PALETTE = [
+        "#00D4FF", "#B7704F", "#4FB7A3", "#9B7FE8", "#E8A37F",
+        "#D04F5F", "#F5C76E", "#6EA8F5", "#A8E06E", "#F58CC8",
+        "#8CE6F5", "#F5A06E", "#7FE8C8", "#C87FE8", "#E8D47F",
+    ];
+    const seriesList = [...new Set(data.nodes.map(n => n.series).filter(Boolean))].sort();
+    const seriesColor = {};
+    // Reserve cyan specifically for the largest connected series so it pops.
+    const seriesCounts = {};
+    data.nodes.forEach(n => { if (n.series) seriesCounts[n.series] = (seriesCounts[n.series] || 0) + 1; });
+    const rankedConnected = [...seriesWithEdges].sort((a, b) => (seriesCounts[b] || 0) - (seriesCounts[a] || 0));
+    rankedConnected.forEach((s, i) => { seriesColor[s] = SERIES_PALETTE[i % SERIES_PALETTE.length]; });
+    // Unconnected series get muted palette slots.
+    let paletteIdx = rankedConnected.length;
+    seriesList.forEach(s => { if (!(s in seriesColor)) { seriesColor[s] = SERIES_PALETTE[paletteIdx++ % SERIES_PALETTE.length]; } });
+
+    function nodeFillColor(n) {
+        if (n.tier === "compound") return "#B7704F";
+        if (n.series && seriesWithEdges.has(n.series)) return seriesColor[n.series] || "#F5F7FA";
+        if (n.series && seriesColor[n.series]) return seriesColor[n.series];
+        return "#F5F7FA";
+    }
+
+    function nodeRadius(n) {
+        const base = 4;
+        return base + Math.sqrt(n.degree || 0) * 3.2 + (n.tier === "compound" ? 2 : 0);
+    }
+
+    // Working copies (d3.force mutates).
+    const nodes = data.nodes.map(n => Object.assign({}, n));
+    const links = data.edges.map(e => ({ source: e.from, target: e.to, type: e.type }));
+
+    // Drop links whose endpoints aren't in the node set (orphans).
+    const validIds = new Set(nodes.map(n => n.id));
+    const liveLinks = links.filter(l => validIds.has(l.source) && validIds.has(l.target));
+
+    document.getElementById("stat-nodes").textContent = nodes.length;
+    document.getElementById("stat-edges").textContent = liveLinks.length;
+    document.getElementById("stat-visible").textContent = nodes.length;
+
+    // Opt-in recording counter — enabled via ?counter=1 in the URL.
+    if (new URLSearchParams(window.location.search).get("counter") === "1") {
+        document.getElementById("rc-nodes").textContent = nodes.length;
+        document.getElementById("rc-edges").textContent = liveLinks.length;
+        document.getElementById("recording-counter").classList.add("on");
+    }
+
+    // Series list sidebar.
+    const seriesListEl = document.getElementById("series-list");
+    const activeSeries = new Set();  // empty = show all
+    const sortedSeries = seriesList.sort((a, b) => (seriesCounts[b] || 0) - (seriesCounts[a] || 0));
+    sortedSeries.forEach(s => {
+        const row = document.createElement("div");
+        row.className = "series-item";
+        row.dataset.series = s;
+        row.innerHTML = `<span class="series-swatch" style="background:${seriesColor[s]}"></span>${s}<span class="series-count">${seriesCounts[s]}</span>`;
+        row.addEventListener("click", () => {
+            if (activeSeries.has(s)) activeSeries.delete(s); else activeSeries.add(s);
+            row.classList.toggle("active");
+            applyFilters();
+        });
+        seriesListEl.appendChild(row);
+    });
+
+    document.getElementById("reset-filters").addEventListener("click", () => {
+        activeSeries.clear();
+        document.querySelectorAll(".series-item.active").forEach(el => el.classList.remove("active"));
+        document.getElementById("search").value = "";
+        applyFilters();
+    });
+
+    // ---- D3 setup ----
+    const svg = d3.select("#graph");
+    const svgNode = svg.node();
+    const width = svgNode.clientWidth;
+    const height = svgNode.clientHeight;
+
+    // Arrow markers per edge type.
+    const defs = svg.append("defs");
+    Object.entries(EDGE_COLOR).forEach(([type, color]) => {
+        defs.append("marker")
+            .attr("id", `arrow-${type}`)
+            .attr("viewBox", "0 -5 10 10")
+            .attr("refX", 18)
+            .attr("refY", 0)
+            .attr("markerWidth", 6)
+            .attr("markerHeight", 6)
+            .attr("orient", "auto")
+          .append("path")
+            .attr("d", "M0,-5L10,0L0,5")
+            .attr("fill", color);
+    });
+
+    const zoomLayer = svg.append("g");
+
+    let currentZoomK = 1;
+    let currentMode = "force";  // "force" | "grid"
+
+    // Progressive label sizing: constant at 1×, gets progressively smaller as
+    // you zoom in so dense clusters don't go cramped. A pure k^-1 formula
+    // holds screen size constant; a k^-1.4 formula actually shrinks past 1×.
+    function labelFontSize(k) {
+        const effK = Math.max(1, k);
+        return Math.max(0.5, 10 / Math.pow(effK, 1.4)).toFixed(2) + "px";
+    }
+    function labelVisibleAtZoom(k, d) {
+        if (d.id === selectedId) return true;
+        if (d._hovered) return true;
+        if (currentMode === "grid") return false;  // hover/select only in grid
+        if (k >= 2.5) return true;
+        if (k >= 1.3) return (d.tier === "compound") || (d.degree || 0) >= 3;
+        return false;
+    }
+    let selectedId = null;
+
+    const zoom = d3.zoom()
+        .scaleExtent([0.05, 6])
+        .on("zoom", (event) => {
+            zoomLayer.attr("transform", event.transform);
+            currentZoomK = event.transform.k;
+            const fs = labelFontSize(currentZoomK);
+            nodeSel.selectAll(".node-label")
+                .attr("font-size", fs)
+                .style("display", d => labelVisibleAtZoom(currentZoomK, d) ? null : "none");
+            link.attr("stroke-width", Math.max(0.3, 1.2 / currentZoomK));
+        });
+    svg.call(zoom);
+
+    // Force simulation.
+    const simulation = d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(liveLinks).id(d => d.id).distance(60).strength(0.5))
+        .force("charge", d3.forceManyBody().strength(d => -40 - (d.degree || 0) * 20))
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .force("collide", d3.forceCollide().radius(d => nodeRadius(d) + 2))
+        // Cluster by series — each series gets a slot on a ring around the center.
+        .force("cluster", clusterForce())
+        .alphaDecay(0.02);
+
+    function clusterForce() {
+        const seriesAngles = {};
+        rankedConnected.forEach((s, i) => {
+            const angle = (i / Math.max(1, rankedConnected.length)) * 2 * Math.PI;
+            seriesAngles[s] = angle;
+        });
+        // Unconnected series sit on an outer ring.
+        const unconnected = sortedSeries.filter(s => !seriesWithEdges.has(s));
+        unconnected.forEach((s, i) => {
+            const angle = (i / Math.max(1, unconnected.length)) * 2 * Math.PI;
+            seriesAngles[s] = angle;
+        });
+        return function(alpha) {
+            const innerR = Math.min(width, height) * 0.22;
+            const outerR = Math.min(width, height) * 0.42;
+            nodes.forEach(n => {
+                if (!n.series) return;
+                const angle = seriesAngles[n.series];
+                if (angle === undefined) return;
+                const r = seriesWithEdges.has(n.series) ? innerR : outerR;
+                const tx = width / 2 + Math.cos(angle) * r;
+                const ty = height / 2 + Math.sin(angle) * r;
+                const k = 0.08 * alpha;
+                n.vx += (tx - n.x) * k;
+                n.vy += (ty - n.y) * k;
+            });
+        };
+    }
+
+    // Links.
+    const link = zoomLayer.append("g")
+        .attr("class", "links")
+      .selectAll("line")
+        .data(liveLinks)
+      .enter().append("line")
+        .attr("class", "link")
+        .attr("stroke", d => EDGE_COLOR[d.type] || "#7A8B9E")
+        .attr("stroke-width", 1.2)
+        .attr("marker-end", d => `url(#arrow-${d.type})`);
+
+    // Nodes.
+    const nodeG = zoomLayer.append("g").attr("class", "nodes");
+    const nodeSel = nodeG.selectAll("g.node-group")
+        .data(nodes)
+      .enter().append("g")
+        .attr("class", "node-group")
+        .call(d3.drag()
+            .on("start", dragStart)
+            .on("drag", dragged)
+            .on("end", dragEnd));
+
+    nodeSel.append("circle")
+        .attr("class", d => "node" + (d.tier === "compound" ? " compound" : ""))
+        .attr("r", nodeRadius)
+        .attr("fill", nodeFillColor)
+        .attr("stroke", d => d.tier === "compound" ? "#B7704F" : "#2F4055")
+        .on("click", (event, d) => { event.stopPropagation(); selectNode(d); });
+
+    nodeSel.append("text")
+        .attr("class", "node-label")
+        .attr("dy", d => nodeRadius(d) + 10)
+        .text(d => d.id.replace("FRAMEWORK-", ""));
+
+    nodeSel.append("title")
+        .text(d => `${d.id}\n${d.name}\nseries: ${d.series || "-"}\ndegree: ${d.degree}`);
+
+    nodeSel
+        .on("mouseover", function(event, d) {
+            d._hovered = true;
+            d3.select(this).select(".node-label")
+                .style("display", null)
+                .classed("hovered", true)
+                .raise();
+            d3.select(this).raise();
+        })
+        .on("mouseout", function(event, d) {
+            d._hovered = false;
+            const visible = labelVisibleAtZoom(currentZoomK, d);
+            d3.select(this).select(".node-label")
+                .style("display", visible ? null : "none")
+                .classed("hovered", d.id === selectedId);
+        });
+
+    // ---- Grid layout ----
+    // Cards layer sits BEHIND nodes. We create it here but leave empty until grid mode activates.
+    const cardsLayer = zoomLayer.insert("g", ":first-child").attr("class", "cards").style("display", "none");
+
+    const GRID = {
+        CARD_W: 240,
+        CARD_PAD: 20,
+        CARD_HEADER: 34,
+        CARD_INNER_PAD: 16,
+        NODE_SPACING: 20,
+        COLUMNS: 5,
+    };
+
+    // Compute positions for all nodes in grid mode (assigns n.gridX, n.gridY) and card rects.
+    function computeGrid() {
+        // Group nodes by series.
+        const bySeries = {};
+        nodes.forEach(n => {
+            const s = n.series || "STANDALONE";
+            (bySeries[s] = bySeries[s] || []).push(n);
+        });
+        // Collapse any series with only 1 member into a single STANDALONE bucket
+        // so we don't end up with 240+ one-node cards cluttering the grid.
+        const standaloneBucket = bySeries["STANDALONE"] || [];
+        for (const [s, members] of Object.entries(bySeries)) {
+            if (s === "STANDALONE") continue;
+            if (members.length < 2) {
+                standaloneBucket.push(...members);
+                delete bySeries[s];
+            }
+        }
+        if (standaloneBucket.length > 0) bySeries["STANDALONE"] = standaloneBucket;
+        // Sort series by node count desc; STANDALONE goes last regardless of size.
+        const seriesEntries = Object.entries(bySeries)
+            .sort((a, b) => {
+                if (a[0] === "STANDALONE") return 1;
+                if (b[0] === "STANDALONE") return -1;
+                return b[1].length - a[1].length;
+            });
+
+        // Compute each card's intrinsic size.
+        const cards = seriesEntries.map(([series, members]) => {
+            const innerW = GRID.CARD_W - GRID.CARD_INNER_PAD * 2;
+            const perRow = Math.max(1, Math.floor(innerW / GRID.NODE_SPACING));
+            const rows = Math.ceil(members.length / perRow);
+            const h = GRID.CARD_HEADER + GRID.CARD_INNER_PAD + rows * GRID.NODE_SPACING;
+            return { series, members, perRow, rows, w: GRID.CARD_W, h };
+        });
+
+        // Masonry-style placement: N columns, place each card in shortest column.
+        const colHeights = new Array(GRID.COLUMNS).fill(0);
+        cards.forEach(card => {
+            const col = colHeights.indexOf(Math.min(...colHeights));
+            card.x = col * (GRID.CARD_W + GRID.CARD_PAD) + GRID.CARD_PAD;
+            card.y = colHeights[col] + GRID.CARD_PAD;
+            colHeights[col] += card.h + GRID.CARD_PAD;
+
+            // Assign each member a position inside the card.
+            card.members.forEach((m, i) => {
+                const row = Math.floor(i / card.perRow);
+                const col2 = i % card.perRow;
+                m.gridX = card.x + GRID.CARD_INNER_PAD + GRID.NODE_SPACING / 2 + col2 * GRID.NODE_SPACING;
+                m.gridY = card.y + GRID.CARD_HEADER + GRID.CARD_INNER_PAD / 2 + row * GRID.NODE_SPACING;
+            });
+        });
+        return cards;
+    }
+
+    const gridCards = computeGrid();
+
+    // Render card rects + headers (hidden until grid mode).
+    const cardG = cardsLayer.selectAll("g.card")
+        .data(gridCards)
+      .enter().append("g").attr("class", "card")
+        .attr("transform", d => `translate(${d.x},${d.y})`);
+    cardG.append("rect")
+        .attr("class", "card-rect")
+        .attr("width", d => d.w).attr("height", d => d.h)
+        .attr("rx", 6).attr("ry", 6);
+    cardG.append("text").attr("class", "card-title")
+        .attr("x", GRID.CARD_INNER_PAD).attr("y", 12)
+        .text(d => d.series);
+    cardG.append("text").attr("class", "card-count")
+        .attr("x", d => d.w - GRID.CARD_INNER_PAD).attr("y", 12)
+        .text(d => d.members.length + (d.members.length === 1 ? " framework" : " frameworks"));
+
+    // ---- Mode transitions ----
+    function enterForceMode() {
+        currentMode = "force";
+        document.getElementById("mode-force").classList.add("active");
+        document.getElementById("mode-grid").classList.remove("active");
+        cardsLayer.style("display", "none");
+        link.style("display", null);
+        nodes.forEach(n => { n.fx = null; n.fy = null; });
+        simulation.alpha(0.7).restart();
+        refreshLabelVisibility();
+    }
+
+    function enterGridMode() {
+        currentMode = "grid";
+        document.getElementById("mode-grid").classList.add("active");
+        document.getElementById("mode-force").classList.remove("active");
+        simulation.stop();
+        cardsLayer.style("display", null);
+        // Pin each node to its grid position.
+        nodes.forEach(n => {
+            n.x = n.gridX;
+            n.y = n.gridY;
+            n.fx = n.gridX;
+            n.fy = n.gridY;
+        });
+        nodeSel.transition().duration(600)
+            .attr("transform", d => `translate(${d.x},${d.y})`);
+        // In grid mode edges would cross everywhere; hide them but keep drawable for selection highlight.
+        link
+            .style("display", "none")
+            .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+        refreshLabelVisibility();
+        // Fit the grid in view initially.
+        const totalW = GRID.COLUMNS * (GRID.CARD_W + GRID.CARD_PAD) + GRID.CARD_PAD;
+        const totalH = Math.max(...gridCards.map(c => c.y + c.h)) + GRID.CARD_PAD;
+        const scale = Math.min(svgNode.clientWidth / totalW, svgNode.clientHeight / totalH) * 0.95;
+        const tx = (svgNode.clientWidth - totalW * scale) / 2;
+        const ty = (svgNode.clientHeight - totalH * scale) / 2;
+        svg.transition().duration(600)
+            .call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+    }
+
+    document.getElementById("mode-force").addEventListener("click", enterForceMode);
+    document.getElementById("mode-grid").addEventListener("click", enterGridMode);
+
+    // Apply initial label visibility (force mode, default zoom = all hidden).
+    setTimeout(() => refreshLabelVisibility(), 50);
+
+    function dragStart(event, d) {
+        if (currentMode === "grid") return;  // grid mode: nodes pinned, no drag.
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x; d.fy = d.y;
+    }
+    function dragged(event, d) {
+        if (currentMode === "grid") return;
+        d.fx = event.x; d.fy = event.y;
+    }
+    function dragEnd(event, d) {
+        if (currentMode === "grid") return;
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null; d.fy = null;
+    }
+
+    simulation.on("tick", () => {
+        link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+        nodeSel.attr("transform", d => `translate(${d.x},${d.y})`);
+        const fs = labelFontSize(currentZoomK);
+        nodeSel.selectAll(".node-label")
+            .attr("font-size", fs)
+            .style("display", d => labelVisibleAtZoom(currentZoomK, d) ? null : "none");
+    });
+
+    // ---- Selection + detail panel ----
+    const detailEl = document.getElementById("detail");
+
+    function refreshLabelVisibility() {
+        nodeSel.selectAll(".node-label")
+            .style("display", d => labelVisibleAtZoom(currentZoomK, d) ? null : "none")
+            .classed("hovered", d => !!d._hovered || d.id === selectedId);
+    }
+
+    function selectNode(d) {
+        selectedId = d.id;
+        nodeSel.selectAll("circle").classed("selected", n => n.id === d.id);
+        refreshLabelVisibility();
+        renderDetail(d);
+    }
+
+    function renderDetail(d) {
+        const outgoing = data.edges.filter(e => e.from === d.id);
+        const incoming = data.edges.filter(e => e.to === d.id);
+        const allEdges = [
+            ...outgoing.map(e => ({ direction: "→", type: e.type, target: e.to })),
+            ...incoming.map(e => ({ direction: "←", type: e.type, target: e.from })),
+        ];
+
+        const tagHTML = (d.tags && d.tags.length)
+            ? d.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")
+            : `<span class="empty">none</span>`;
+
+        const edgeHTML = allEdges.length
+            ? `<div class="edge-list">${allEdges.map(e => `
+                <div class="edge-item" data-target="${escapeHtml(e.target)}">
+                    <span class="edge-type" style="color:${EDGE_COLOR[e.type] || '#7A8B9E'}">${e.direction} ${escapeHtml(e.type)}</span>
+                    <span class="edge-target">${escapeHtml(e.target)}</span>
+                </div>`).join("")}</div>`
+            : `<div class="empty">No explicit edges. Most frameworks in the library have empty relationship blocks — this is sparsity, not a bug.</div>`;
+
+        detailEl.innerHTML = `
+            <h3>${escapeHtml(d.name || d.id)}</h3>
+            <div class="id">${escapeHtml(d.id)}</div>
+            <div class="field"><div class="label">Synopsis</div><div class="synopsis">${escapeHtml(d.synopsis || "(no synopsis)")}</div></div>
+            <div class="field"><div class="label">Domain</div><div class="value">${escapeHtml(d.domain || "-")}</div></div>
+            <div class="field"><div class="label">Series / Tier</div><div class="value">${escapeHtml(d.series || "-")} / ${escapeHtml(d.tier || "-")}</div></div>
+            <div class="field"><div class="label">Status</div><div class="value">${escapeHtml(d.status || "-")}</div></div>
+            <div class="field"><div class="label">Degree</div><div class="value">${d.degree}</div></div>
+            <div class="field"><div class="label">Tags</div><div class="value">${tagHTML}</div></div>
+            <div class="field"><div class="label">Relationships (${allEdges.length})</div>${edgeHTML}</div>
+        `;
+
+        // Wire up edge-item clicks to navigate.
+        detailEl.querySelectorAll(".edge-item").forEach(el => {
+            el.addEventListener("click", () => {
+                const target = el.dataset.target;
+                const targetNode = nodes.find(n => n.id === target);
+                if (targetNode) selectNode(targetNode);
+            });
+        });
+    }
+
+    function escapeHtml(s) {
+        return String(s == null ? "" : s)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+    }
+
+    // Clicking empty svg clears selection.
+    svg.on("click", () => {
+        selectedId = null;
+        nodeSel.selectAll("circle").classed("selected", false);
+    });
+
+    // ---- Filters ----
+    const searchEl = document.getElementById("search");
+    searchEl.addEventListener("input", applyFilters);
+
+    function applyFilters() {
+        const q = searchEl.value.trim().toLowerCase();
+        let visible = 0;
+        nodeSel.each(function(d) {
+            const seriesMatch = activeSeries.size === 0 || (d.series && activeSeries.has(d.series));
+            let textMatch = true;
+            if (q) {
+                const hay = (d.name || "") + " " + (d.id || "") + " " + ((d.tags || []).join(" ")) + " " + (d.domain || "");
+                textMatch = hay.toLowerCase().includes(q);
+            }
+            // Tag/text search with no series filter crosses all series.
+            const show = (q && activeSeries.size === 0) ? textMatch : (seriesMatch && textMatch);
+            d3.select(this).selectAll("circle").classed("dim", !show);
+            d3.select(this).selectAll(".node-label").style("opacity", show ? null : 0.1);
+            if (show) visible++;
+        });
+
+        // Links: dim unless both endpoints are visible.
+        link.classed("dim", function(l) {
+            const a = l.source.id ? byId.get(l.source.id) : byId.get(l.source);
+            const b = l.target.id ? byId.get(l.target.id) : byId.get(l.target);
+            const aShow = matchVisible(a, q);
+            const bShow = matchVisible(b, q);
+            return !(aShow && bShow);
+        });
+
+        document.getElementById("stat-visible").textContent = visible;
+    }
+
+    function matchVisible(n, q) {
+        if (!n) return false;
+        // Text search with no series filter crosses all series.
+        if (q && activeSeries.size === 0) {
+            const hay = (n.name || "") + " " + (n.id || "") + " " + ((n.tags || []).join(" ")) + " " + (n.domain || "");
+            return hay.toLowerCase().includes(q);
+        }
+        const seriesMatch = activeSeries.size === 0 || (n.series && activeSeries.has(n.series));
+        if (!seriesMatch) return false;
+        if (!q) return true;
+        const hay = (n.name || "") + " " + (n.id || "") + " " + ((n.tags || []).join(" ")) + " " + (n.domain || "");
+        return hay.toLowerCase().includes(q);
+    }
+
+    // Resize handler.
+    window.addEventListener("resize", () => {
+        const w = svgNode.clientWidth, h = svgNode.clientHeight;
+        simulation.force("center", d3.forceCenter(w / 2, h / 2)).alpha(0.3).restart();
+    });
+})();
+</script>
+</body>
+</html>

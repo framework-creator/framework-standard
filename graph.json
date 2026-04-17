@@ -1,0 +1,199 @@
+{
+  "generated_at": "2026-04-17T23:45:38Z",
+  "stats": {
+    "nodes": 4,
+    "edges": 20,
+    "edges_by_type": {
+      "depends_on": 7,
+      "related_to": 6,
+      "parent_of": 6,
+      "extends": 1
+    },
+    "orphan_ids": [
+      "FRAMEWORK-2001-006",
+      "FRAMEWORK-AUDIO-007",
+      "FRAMEWORK-FILM-001",
+      "FRAMEWORK-FILM-002",
+      "FRAMEWORK-FILM-003",
+      "FRAMEWORK-FILM-004",
+      "FRAMEWORK-FILM-005",
+      "FRAMEWORK-FILM-006",
+      "FRAMEWORK-MOTION-007",
+      "FRAMEWORK-RENDER-001",
+      "FRAMEWORK-RENDER-002",
+      "FRAMEWORK-RENDER-003",
+      "FRAMEWORK-SCROLL-007"
+    ],
+    "orphan_count": 13
+  },
+  "nodes": [
+    {
+      "id": "FRAMEWORK-EXAMPLE-001",
+      "name": "Minimal Example Framework",
+      "domain": "reference",
+      "series": "EXAMPLE",
+      "tier": null,
+      "status": "draft",
+      "synopsis": "Smallest valid framework file. Demonstrates every required field at its minimum form. Not a useful framework, just a structural reference.",
+      "tags": [
+        "example"
+      ],
+      "degree": 0
+    },
+    {
+      "id": "FRAMEWORK-FILM-007",
+      "name": "Cinematographic Web Design Intelligence",
+      "domain": "compound_intelligence",
+      "series": "FILM",
+      "tier": "compound",
+      "status": "active",
+      "synopsis": "Applies six cinematographic frameworks (shot type, camera movement, transitions, pacing, depth of field, spatial consistency) simultaneously to web design, producing interfaces that feel directed rather than designed. Compound framework that orchestrates FILM-001 through FILM-006.",
+      "tags": [
+        "cinematography",
+        "web_design",
+        "compound",
+        "attention_direction",
+        "craft_translation"
+      ],
+      "degree": 16
+    },
+    {
+      "id": "FRAMEWORK-RENDER-004",
+      "name": "RENDER Audio-Visual Production Intelligence",
+      "domain": "audio_visual",
+      "series": "RENDER",
+      "tier": "component",
+      "status": "active",
+      "synopsis": "Closes the three critical gaps between HTML animation and professional ad production: audio-first timeline construction, multi-track sound design, and kinetic typography vocabulary. The core inversion: professional production builds animation TO audio, not audio TO animation. Measure voiceover duration first, then derive CSS animation-delay values from audio landmarks. This single change turns timing guesswork into frame-precise choreography. Production time for a complete 15-30 second ad with full audio, under 5 minutes.",
+      "tags": [
+        "audio_visual",
+        "video_production",
+        "voiceover",
+        "kinetic_typography",
+        "ffmpeg",
+        "css_animation"
+      ],
+      "degree": 4
+    },
+    {
+      "id": "FRAMEWORK-SCOPE-001",
+      "name": "Systematic Collaboration and Partnership Expression",
+      "domain": "ai_collaboration",
+      "series": "SCOPE",
+      "tier": "foundation",
+      "status": "active",
+      "synopsis": "A framework for calibrating AI collaboration to feel like a genuine working relationship rather than a series of transactions. Covers energy adaptation, confidence calibration, authentic presence, and embedded strategic intelligence. The result is an AI that shows up differently based on context, maintains consistency under feedback, and applies systematic thinking naturally rather than performatively.",
+      "tags": [
+        "ai collaboration",
+        "voice calibration",
+        "energy adaptation",
+        "confidence",
+        "strategic intelligence",
+        "partnership"
+      ],
+      "degree": 0
+    }
+  ],
+  "edges": [
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-FILM-001",
+      "type": "depends_on"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-FILM-002",
+      "type": "depends_on"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-FILM-003",
+      "type": "depends_on"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-FILM-004",
+      "type": "depends_on"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-FILM-005",
+      "type": "depends_on"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-FILM-006",
+      "type": "depends_on"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-2001-006",
+      "type": "related_to"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-AUDIO-007",
+      "type": "related_to"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-MOTION-007",
+      "type": "related_to"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-SCROLL-007",
+      "type": "related_to"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-FILM-001",
+      "type": "parent_of"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-FILM-002",
+      "type": "parent_of"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-FILM-003",
+      "type": "parent_of"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-FILM-004",
+      "type": "parent_of"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-FILM-005",
+      "type": "parent_of"
+    },
+    {
+      "from": "FRAMEWORK-FILM-007",
+      "to": "FRAMEWORK-FILM-006",
+      "type": "parent_of"
+    },
+    {
+      "from": "FRAMEWORK-RENDER-004",
+      "to": "FRAMEWORK-RENDER-001",
+      "type": "depends_on"
+    },
+    {
+      "from": "FRAMEWORK-RENDER-004",
+      "to": "FRAMEWORK-RENDER-001",
+      "type": "extends"
+    },
+    {
+      "from": "FRAMEWORK-RENDER-004",
+      "to": "FRAMEWORK-RENDER-002",
+      "type": "related_to"
+    },
+    {
+      "from": "FRAMEWORK-RENDER-004",
+      "to": "FRAMEWORK-RENDER-003",
+      "type": "related_to"
+    }
+  ]
+}

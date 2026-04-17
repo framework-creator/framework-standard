@@ -1,22 +1,17 @@
 # Private library and derived artifacts (not for public repo)
 library.db
 library-*.db
-*.db
+library-test.db
+roundtrip.db
 exported/
 exported-enriched/
 exported-pre-enrichment/
-graph.json
-graph.js
-roundtrip.db
 
 # Recording pipeline artifacts (kept local, not shipped)
 video/
 node_modules/
 package.json
 package-lock.json
-
-# Optional demo viewer (omitted per initial ship plan, follow-up PR adds a tiny demo graph)
-graph.html
 
 # OS and editor cruft
 .DS_Store
