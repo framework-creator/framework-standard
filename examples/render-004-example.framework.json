@@ -1,0 +1,210 @@
+{
+  "_spec_version": "1.0",
+  "framework_id": "FRAMEWORK-RENDER-004",
+  "name": "RENDER Audio-Visual Production Intelligence",
+  "version": "1.1.0",
+  "created_date": "2026-04-14",
+  "updated_date": "2026-04-15",
+  "status": "active",
+  "creator": "RageDesigner / Mike Goetz",
+  "synopsis": "Closes the three critical gaps between HTML animation and professional ad production: audio-first timeline construction, multi-track sound design, and kinetic typography vocabulary. The core inversion: professional production builds animation TO audio, not audio TO animation. Measure voiceover duration first, then derive CSS animation-delay values from audio landmarks. This single change turns timing guesswork into frame-precise choreography. Production time for a complete 15-30 second ad with full audio, under 5 minutes.",
+  "origin_story": "Built April 14, 2026 after a production session that made a token-economics data infographic and a narrative-interface animation. Gap analysis revealed audio synchronization, multi-track mixing, and kinetic typography as the three highest-impact missing capabilities. All three were achievable with the existing stack (ElevenLabs TTS + FFmpeg + CSS). v1.1 (April 15) added the doctrine correction that visual timing syncs to VO words, not to the brief's theoretical beat positions. Validated across 5 video productions.",
+  "classification": {
+    "domain": "audio_visual",
+    "category": "video_production",
+    "series": "RENDER",
+    "tier": "component",
+    "tags": ["audio_visual", "video_production", "voiceover", "kinetic_typography", "ffmpeg", "css_animation"],
+    "triggers": [
+      "build a video with voiceover",
+      "sync animation to audio",
+      "mix music and SFX with a video",
+      "kinetic typography",
+      "RENDER pipeline audio"
+    ]
+  },
+  "layer_1_principles_foundation": {
+    "core_principles": [
+      {
+        "principle": "Audio-first timeline inversion.",
+        "description": "Professional video production builds visuals to audio, not the reverse. Record the voiceover first. Measure its duration. Identify audio landmarks (sentence breaks, emphasis words, pauses). Map CSS animation-delay values to those landmarks. The audio IS the timeline. CSS is the choreography that follows it.",
+        "evidence": "Every production run that built animation first required retiming. Audio-first eliminates retiming entirely. Five April 2026 video productions validated the inversion."
+      },
+      {
+        "principle": "Sound design is not optional.",
+        "description": "Silent animations are graphics. Animations with voiceover are explainers. Animations with voiceover plus music bed plus sound effects are ads. The difference between each tier is not quality of animation. It is presence of sound. A mediocre animation with excellent sound design outperforms a beautiful animation with no audio on every engagement metric.",
+        "evidence": "LinkedIn video posts with audio get 2-3x more engagement than silent posts. Total sound design cost per ad: under $0.10 (ElevenLabs TTS + music gen + SFX)."
+      },
+      {
+        "principle": "Kinetic typography is cinema, not animation.",
+        "description": "Moving text is not animated text. Moving text is text that arrives with meaning encoded in its motion. A word that drops from above carries weight. A word that slides from the right carries momentum. A word that scales from zero to full carries revelation. The motion IS the message. Choose the motion for what it communicates, not for how it looks."
+      },
+      {
+        "principle": "Playwright quality ceiling requires immediate re-encode.",
+        "description": "Playwright records WebM using VP8 at approximately 800kbps to 2Mbps with no public API to increase bitrate. This is sufficient for social media but creates visible compression artifacts on large text and gradient backgrounds. Always re-encode to H.264 CRF 15 immediately after Playwright capture, before any other processing. This is the first FFmpeg command in every pipeline run, not the last.",
+        "evidence": "ffmpeg -i recording.webm -c:v libx264 -crf 15 -preset slow -pix_fmt yuv420p output_hq.mp4"
+      },
+      {
+        "principle": "Visual timing syncs to VO words, not to brief beats.",
+        "description": "The brief's beat positions are estimates. The rendered VO audio is the actual master timeline. After VO is generated and mixed, watch the video once and mark where each key phrase actually lands in the audio. Then adjust CSS animation-delay values to match the VO word timing, not the brief's theoretical beats. The ear leads the eye.",
+        "evidence": "v1.0 builds routinely landed visuals 1-3 seconds behind audio. v1.1 added a Sync Verification phase that eliminated the drift."
+      }
+    ]
+  },
+  "layer_2_systematic_approach": {
+    "methodology": "Audio-First RENDER Production Protocol",
+    "steps": [
+      {
+        "step": 1,
+        "name": "Phase 0: Write the script",
+        "description": "Write the voiceover script before any visual work begins. Expand a one-sentence story to a 15-30s VO script with natural pacing. Mark audio landmarks [PAUSE], [EMPHASIS], [BEAT] at transition points. Target 40-75 words for 15s, 75-120 words for 30s (natural speech is ~150 wpm). Read aloud to verify pacing before generating TTS."
+      },
+      {
+        "step": 2,
+        "name": "Phase 1: Generate and measure audio",
+        "description": "Produce VO via ElevenLabs TTS. Generate music bed and SFX if needed. Measure VO duration with ffprobe. Build a timestamp map: match script landmarks to measured audio timestamps. Total animation duration = VO duration + 2-3s hold at end."
+      },
+      {
+        "step": 3,
+        "name": "Phase 2: Map audio landmarks to CSS delays",
+        "description": "Each audio landmark becomes a CSS animation-delay. Visual entrance timing follows VO phrasing. BEAT markers become transition points (dissolve, glitch, scene change). EMPHASIS markers become scale/color/weight accents. PAUSE markers become hold periods."
+      },
+      {
+        "step": 4,
+        "name": "Phase 2.5: Sync verification",
+        "description": "Mix the video. Watch once. For each key phrase in the VO, verify the corresponding visual element appears within 200ms of the phrase. If not, adjust animation-delay and re-record. Added in v1.1 after production runs showed the brief's beat estimates consistently drifted 1-3s behind actual VO."
+      },
+      {
+        "step": 5,
+        "name": "Phase 3: Engineer the slide with locked timing",
+        "description": "Build HTML/CSS/JS animation using the audio-derived timeline. All animation-delay values are pre-determined. No guessing, no retiming. Build to the timeline, not around it."
+      },
+      {
+        "step": 6,
+        "name": "Phase 4: Record and re-encode",
+        "description": "Set Playwright viewport to target dimensions (1080x1080 or 1080x1920). Wait for VO duration + hold + 1s buffer. Close context to finalize WebM. IMMEDIATELY re-encode to H.264 CRF 15 before any other processing. Delete the WebM after the re-encode is verified."
+      },
+      {
+        "step": 7,
+        "name": "Phase 5: Audio mix and master",
+        "description": "Combine video with all audio tracks via FFmpeg filter_complex. VO at 1.0 (reference level, never touched). Music bed at 0.10-0.20 during VO, 0.4 during music-only sections. SFX at 0.3-0.7 depending on texture. If you can hear the music during voiceover, it is too loud. Music should be felt, not heard."
+      },
+      {
+        "step": 8,
+        "name": "Phase 6: Multi-format export",
+        "description": "From one mastered video, export five formats: MP4 with audio (primary), MP4 silent with caption overlay (social autoplay), GIF (email/X under 5MB), PNG static (thumbnail), and 9:16 vertical (TikTok/Reels). Same HTML source for all."
+      }
+    ]
+  },
+  "layer_3_force_multipliers": {
+    "primary_multipliers": [
+      {
+        "name": "Audio as master timeline",
+        "mechanism": "Locking the timeline to measured VO duration eliminates the retiming loop that otherwise consumes 30-60% of production time. Every animation-delay becomes a derived value, not a guess.",
+        "estimated_return": "Production time per ad reduced from ~20 minutes to under 5 minutes after Phase 2 is in place."
+      },
+      {
+        "name": "Multi-track FFmpeg mix as single command",
+        "mechanism": "One filter_complex expression mixes VO + music + SFX with correct volumes, fades, and delays. No GUI audio editor, no intermediate bounces. The command is a deterministic recipe.",
+        "estimated_return": "Removes the entire category of 'import audio into DAW' work. Mix step drops from 10-15 minutes to 30 seconds.",
+        "interaction_effects": "Compounds with the audio-first timeline. Because VO duration is known before the mix, fade-out start points are derivable, not auditioned."
+      },
+      {
+        "name": "Five kinetic typography patterns as a reusable vocabulary",
+        "mechanism": "Variable font weight morph, word-by-word reveal, split-line rise, baseline bounce, and character scatter cover 90% of text animation needs. Pick a pattern by intent (weight / reading rhythm / cinematic / impact / reveal), paste the CSS, done.",
+        "estimated_return": "Text animation decisions go from 'designer instinct each time' to 'library lookup'. Variance drops, quality floor rises."
+      }
+    ]
+  },
+  "layer_4_success_metrics": {
+    "leading_indicators": [
+      "Script is written and read aloud before any TTS generation begins.",
+      "ffprobe-measured VO duration is captured before CSS timeline construction.",
+      "Every audio landmark has a millisecond value in the timestamp map.",
+      "Sync verification step runs on every mix before final export."
+    ],
+    "lagging_indicators": [
+      "Production time per 30-second ad stays under 5 minutes.",
+      "Visual elements land within 200ms of their corresponding VO phrase on every export.",
+      "Mobile-device readability: text at 28px+ on a 1080px canvas, readable at phone scale."
+    ],
+    "failure_modes": [
+      {
+        "mode": "Animation built before VO recorded",
+        "symptom": "VO is 18 seconds but animation was built for 12. Full restructure needed.",
+        "resolution": "Phase 0 and Phase 1 must complete before any HTML is opened. Hold the line."
+      },
+      {
+        "mode": "Music too loud during VO",
+        "symptom": "Listener strains to hear the narration. Music competes with voice.",
+        "resolution": "Music bed at 0.15-0.20 max during VO. If you can hear the music, it is too loud. Mix VO last and loudest."
+      },
+      {
+        "mode": "WebM shipped without re-encode",
+        "symptom": "Visible compression artifacts on large text and gradient backgrounds. Social-feed preview looks muddy.",
+        "resolution": "The first FFmpeg command after Playwright closes is the re-encode to H.264 CRF 15. Treat it as part of the record step, not as an optional follow-up."
+      },
+      {
+        "mode": "Visuals drift behind VO",
+        "symptom": "Key phrase lands at 8s in the rendered VO; corresponding visual appears at 9.5s. Viewer feels the lag.",
+        "resolution": "Phase 2.5 Sync Verification is mandatory. Adjust animation-delay to VO word timing, not brief beat estimates."
+      }
+    ],
+    "red_flags_do_not_use_when": [
+      "The deliverable is silent by design (data-only GIF, email PNG, thumbnail).",
+      "The animation is longer than 60 seconds (the multi-track mix pattern here is tuned for 15-30s ads)."
+    ]
+  },
+  "layer_5_implementation_guidance": {
+    "entry_conditions": {
+      "required": [
+        "A clear one-sentence story for the ad before script writing begins.",
+        "ElevenLabs access (or an equivalent TTS + SFX + music gen pipeline).",
+        "FFmpeg 6.0+ installed.",
+        "Playwright installed in the recording environment."
+      ],
+      "optimal": [
+        "RENDER-001 pipeline already in use (this framework replaces its Phase N positioning).",
+        "Art direction from RENDER-003 already established for the target brand."
+      ]
+    },
+    "exit_conditions": [
+      "Five distribution-ready assets produced from a single HTML source.",
+      "Sync Verification passed: every key VO phrase lands within 200ms of its visual.",
+      "No audio clipping (peaks under 0dB), music fades out before video ends."
+    ],
+    "deployment_contexts": [
+      {
+        "context": "15-30 second ad production",
+        "description": "Primary use case. The full protocol runs in under 5 minutes once the script is written."
+      },
+      {
+        "context": "Product capability demos",
+        "description": "Works for any 'system activating' narrative where the audio carries the story."
+      },
+      {
+        "context": "Token-economics and data-vis videos",
+        "description": "Originally built for this use case. Kinetic typography patterns shine on numeric reveals."
+      }
+    ]
+  },
+  "relationships": {
+    "depends_on": ["FRAMEWORK-RENDER-001"],
+    "extends": ["FRAMEWORK-RENDER-001"],
+    "related_to": ["FRAMEWORK-RENDER-002", "FRAMEWORK-RENDER-003"],
+    "triggers": [],
+    "conflicts_with": [],
+    "parent_of": [],
+    "child_of": []
+  },
+  "evidence_base": {
+    "validation_sources": [
+      "5 video productions across April 2026 (token-economics infographic, narrative-interface animation, framework-graph walkthrough, two client ads).",
+      "Sync Verification phase eliminated the 1-3s visual drift that v1.0 builds consistently showed."
+    ]
+  },
+  "version_history": {
+    "1.0.0_2026_04_14": "Initial framework. Audio-first timeline, multi-track mixing, kinetic typography vocabulary. 5 KTYPE patterns, 4 camera movements, full sound design protocol.",
+    "1.1.0_2026_04_15": "Doctrine correction: visual timing syncs to VO words, not to brief beat estimates. Phase 2.5 Sync Verification added. Production-validated SFX volume levels locked in."
+  }
+}

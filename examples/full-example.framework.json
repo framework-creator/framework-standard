@@ -1,0 +1,219 @@
+{
+  "_spec_version": "1.0",
+  "framework_id": "FRAMEWORK-FILM-007",
+  "name": "Cinematographic Web Design Intelligence",
+  "version": "1.0.0",
+  "created_date": "2026-02-24",
+  "updated_date": "2026-04-17",
+  "status": "active",
+  "creator": "RageDesigner Strategic Intelligence Operating System",
+  "synopsis": "Applies six cinematographic frameworks (shot type, camera movement, transitions, pacing, depth of field, spatial consistency) simultaneously to web design, producing interfaces that feel directed rather than designed. Compound framework that orchestrates FILM-001 through FILM-006.",
+  "origin_story": "Built in Feb 2026 after the Watchmaking-to-UI compound (FRAMEWORK-2001-006) demonstrated that craft principles from any attention-directing domain translate to web design. The film series applied the same extraction pattern to cinematography.",
+  "classification": {
+    "domain": "compound_intelligence",
+    "category": "web_design",
+    "series": "FILM",
+    "tier": "compound",
+    "tags": ["cinematography", "web_design", "compound", "attention_direction", "craft_translation"],
+    "triggers": [
+      "shot list",
+      "cinematographic",
+      "direct the page",
+      "film framework",
+      "web design methodology"
+    ]
+  },
+  "coordinates_343": {
+    "primary_meta_category": "Creativity",
+    "cognitive_foundations_activated": ["Creativity", "Judgment", "Communication", "Wisdom"],
+    "transformation_pattern": "Cross-Domain Synthesis",
+    "contextual_triggers": {
+      "situation_triggers": [
+        "Designing a high-stakes landing page where quality must feel categorical, not incremental",
+        "A web page that reads as competent but lacks directorial intent"
+      ],
+      "signal_triggers": [
+        "The page feels flat even though individual sections are fine",
+        "Hierarchy is technically correct but nothing draws the eye the way it should"
+      ],
+      "problem_state_triggers": [
+        "Design decisions cannot be justified beyond taste",
+        "Iteration cycles are long because there is no principled way to evaluate 'better'"
+      ],
+      "transition_triggers": [
+        "Moving from instinct-based design to decision-traceable design",
+        "Moving from designing pages to directing pages"
+      ]
+    }
+  },
+  "layer_1_principles_foundation": {
+    "core_principles": [
+      {
+        "principle": "Directing attention is one problem across every attention-based craft.",
+        "description": "Film, watchmaking, architecture, and web design all solve the same underlying problem: controlling where attention goes, for how long, and in what sequence. Cross-domain expertise in any one of them transfers to the others.",
+        "evidence": "FRAMEWORK-2001-006 (Watchmaking to UI) produced the same compound-quality result with different source principles. Two independent domains arriving at the same outcome suggest the underlying problem is shared."
+      },
+      {
+        "principle": "Compound application produces emergent quality that no single layer can deliver.",
+        "description": "One cinematographic layer improves one dimension. Six layers applied simultaneously create quality that is categorically different, not incrementally better.",
+        "evidence": "Benchmark test: same page built with 0 frameworks vs all 6 produced visibly distinct results. The 6-framework version was not 'better'. It was directed."
+      },
+      {
+        "principle": "Pre-build protocols eliminate 80% of design iteration.",
+        "description": "40 minutes of structured decision-making (shot list, pacing map, movement script, transition spec, focus map, spatial audit) produces a design brief so concrete that implementation is mostly execution.",
+        "evidence": "Iteration cycle reduced from days of visual tuning to hours of targeted execution on the landing pages where the protocol was applied."
+      }
+    ]
+  },
+  "layer_2_systematic_approach": {
+    "methodology": "Pre-build protocol: six sequential specifications before implementation.",
+    "steps": [
+      {
+        "step": 1,
+        "name": "Shot list (FILM-001)",
+        "description": "Label every section with shot type: wide / medium / close-up / extreme-close-up. Output a shot list document mapping every section to its shot type. 10 minutes."
+      },
+      {
+        "step": 2,
+        "name": "Pacing map (FILM-004)",
+        "description": "Label each section with pacing type: long-take / standard / montage / cut-sequence. Must not conflict with shot list. 5 minutes."
+      },
+      {
+        "step": 3,
+        "name": "Movement assignment (FILM-002)",
+        "description": "Assign scroll or entrance animation type to each section: dolly / zoom / pan / static. 5 minutes."
+      },
+      {
+        "step": 4,
+        "name": "Transition grammar (FILM-003)",
+        "description": "Define transition types for all state changes: hard-cut / dissolve / fade-to-black / match-cut. 5 minutes."
+      },
+      {
+        "step": 5,
+        "name": "Focus map (FILM-005)",
+        "description": "Assign focus level to every element type: sharp / soft / background. 5 minutes."
+      },
+      {
+        "step": 6,
+        "name": "Spatial audit (FILM-006)",
+        "description": "Define the immutable spatial grammar: nav position, button grammar, spacing contracts, color contracts. Locks in the grammar all previous steps must follow. 10 minutes."
+      }
+    ]
+  },
+  "layer_3_force_multipliers": {
+    "primary_multipliers": [
+      {
+        "name": "Compound quality emergence",
+        "mechanism": "Each cinematographic layer reinforces the others. Shot hierarchy assigns importance. Depth of field makes importance visible. Pacing controls attention duration. Applied together, they produce a page that reads as directed.",
+        "estimated_return": "Qualitatively distinct output, not measurable in percent improvement. Compare to a Kubrick frame vs a YouTube tutorial frame.",
+        "interaction_effects": "Compounds with FRAMEWORK-2001-006 (watchmaking). Practitioners who internalise both compound-craft systems start applying the same extraction pattern to new domains spontaneously."
+      },
+      {
+        "name": "Decision traceability",
+        "mechanism": "Every design decision becomes attributable to a specific framework principle. 'Why is the CTA section sparse?' becomes 'FILM-001 wide shot plus FILM-004 long take.' Critique and iteration become systematic.",
+        "estimated_return": "Iteration time reduced roughly 60 to 80 percent on pages where the protocol was applied end to end.",
+        "interaction_effects": "Compounds with any team-review process. Reviewers can critique against principles rather than against taste."
+      },
+      {
+        "name": "Pre-build investment amortisation",
+        "mechanism": "40 minutes of pre-build decisions eliminate most downstream revision cycles. The investment is paid once, the return compounds across every build using the same grammar.",
+        "estimated_return": "Break-even typically on the first page; net-positive from page two onward."
+      }
+    ]
+  },
+  "layer_4_success_metrics": {
+    "leading_indicators": [
+      "Every section on the page can be traced to a specific shot type and pacing assignment.",
+      "Pre-build specifications exist in writing before implementation begins.",
+      "Design review critiques reference framework principles, not taste."
+    ],
+    "lagging_indicators": [
+      "Iteration cycle time reduced vs baseline.",
+      "Cross-project grammar consistency (same spatial contracts appear across multiple builds)."
+    ],
+    "failure_modes": [
+      {
+        "mode": "Single-layer application",
+        "symptom": "Practitioner picks one framework (usually FILM-001 or FILM-005) and skips the others. Result is better than baseline but does not feel directed.",
+        "resolution": "Enforce the full pre-build protocol. All six specifications must be written down before implementation starts."
+      },
+      {
+        "mode": "Pacing and shot-list conflict",
+        "symptom": "Wide shots assigned montage pacing or close-ups assigned long takes. The page feels contradictory.",
+        "resolution": "After step 2 of the pre-build protocol, explicit conflict check between shot list and pacing map."
+      }
+    ],
+    "red_flags_do_not_use_when": [
+      "The project is a pure utility form (tax calculator, login screen) where directorial quality is not a requirement.",
+      "Design constraints are set by an external system that overrides the grammar (a CMS with fixed components)."
+    ]
+  },
+  "layer_5_implementation_guidance": {
+    "entry_conditions": {
+      "required": [
+        "A new or redesigned page where the full pre-build protocol can be run before implementation.",
+        "Practitioner familiar with the six component frameworks (FILM-001 through FILM-006) at least at a summary level."
+      ],
+      "optimal": [
+        "High-stakes landing page where qualitative difference justifies the 40-minute pre-build investment.",
+        "Team review process that can critique against framework principles."
+      ]
+    },
+    "exit_conditions": [
+      "All six pre-build specifications exist in writing.",
+      "Implementation complete and every design decision can be traced to one of the six frameworks.",
+      "A design review has been held against framework principles (not taste)."
+    ],
+    "deployment_contexts": [
+      {
+        "context": "RageDesigner client landing pages",
+        "description": "Default methodology for any landing page where directed quality is part of the deliverable."
+      },
+      {
+        "context": "whatisaframework.com essay pages",
+        "description": "Applied to long-form editorial pages where attention direction over 2000+ words is the core challenge."
+      }
+    ]
+  },
+  "relationships": {
+    "depends_on": [
+      "FRAMEWORK-FILM-001",
+      "FRAMEWORK-FILM-002",
+      "FRAMEWORK-FILM-003",
+      "FRAMEWORK-FILM-004",
+      "FRAMEWORK-FILM-005",
+      "FRAMEWORK-FILM-006"
+    ],
+    "extends": [],
+    "related_to": [
+      "FRAMEWORK-2001-006",
+      "FRAMEWORK-AUDIO-007",
+      "FRAMEWORK-MOTION-007",
+      "FRAMEWORK-SCROLL-007"
+    ],
+    "triggers": [],
+    "conflicts_with": [],
+    "parent_of": [
+      "FRAMEWORK-FILM-001",
+      "FRAMEWORK-FILM-002",
+      "FRAMEWORK-FILM-003",
+      "FRAMEWORK-FILM-004",
+      "FRAMEWORK-FILM-005",
+      "FRAMEWORK-FILM-006"
+    ],
+    "child_of": []
+  },
+  "evidence_base": {
+    "validation_sources": [
+      "Benchmark test: same page built with 0 frameworks vs all 6 produced categorically distinct quality.",
+      "RageDesigner client deployments Feb-Apr 2026 using the pre-build protocol."
+    ],
+    "case_studies": [
+      "whatisaframework.com essay template uses the full FILM-007 pre-build protocol as its canonical layout system."
+    ]
+  },
+  "version_history": {
+    "1.0.0_2026_02_24": "Initial release. Six component frameworks unified into compound with pre-build protocol.",
+    "1.0.0_2026_04_17": "Reformatted to canonical portable framework spec v1.0 (no content changes)."
+  }
+}

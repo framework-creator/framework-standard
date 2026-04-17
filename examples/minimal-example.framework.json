@@ -1,0 +1,63 @@
+{
+  "_spec_version": "1.0",
+  "framework_id": "FRAMEWORK-EXAMPLE-001",
+  "name": "Minimal Example Framework",
+  "version": "1.0.0",
+  "created_date": "2026-04-17",
+  "updated_date": "2026-04-17",
+  "status": "draft",
+  "synopsis": "Smallest valid framework file. Demonstrates every required field at its minimum form. Not a useful framework, just a structural reference.",
+  "classification": {
+    "domain": "reference",
+    "tags": ["example"]
+  },
+  "layer_1_principles_foundation": {
+    "core_principles": [
+      {
+        "principle": "A valid framework has all five layers.",
+        "description": "Even if a layer carries only a single entry, the key must be present so that ingesters can rely on it."
+      }
+    ]
+  },
+  "layer_2_systematic_approach": {
+    "methodology": "Single-step demonstration.",
+    "steps": [
+      {
+        "step": 1,
+        "name": "Do the thing",
+        "description": "The smallest possible step body."
+      }
+    ]
+  },
+  "layer_3_force_multipliers": {
+    "primary_multipliers": [
+      {
+        "name": "Structural predictability",
+        "mechanism": "Every valid framework file looks the same at the top level, so tools never need heuristics."
+      }
+    ]
+  },
+  "layer_4_success_metrics": {
+    "leading_indicators": ["File parses and validates."],
+    "lagging_indicators": [],
+    "failure_modes": [],
+    "red_flags_do_not_use_when": []
+  },
+  "layer_5_implementation_guidance": {
+    "entry_conditions": {
+      "required": ["You need a template to start a new framework."],
+      "optimal": []
+    },
+    "exit_conditions": ["The new framework validates against the spec."],
+    "deployment_contexts": []
+  },
+  "relationships": {
+    "depends_on": [],
+    "extends": [],
+    "related_to": [],
+    "triggers": [],
+    "conflicts_with": [],
+    "parent_of": [],
+    "child_of": []
+  }
+}
