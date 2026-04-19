@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Conversation Miner, Portable Framework Format</title>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<style>
+    :root {
+        --bg: #1A2332;
+        --bg-elev: #223042;
+        --panel: #1E2A3A;
+        --border: #2F4055;
+        --copper: #B7704F;
+        --cyan: #00D4FF;
+        --white: #F5F7FA;
+        --muted: #7A8B9E;
+        --green: #4FB7A3;
+        --red: #D04F5F;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+        background: var(--bg);
+        color: var(--white);
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.55;
+        padding: 32px 20px 60px;
+        min-height: 100vh;
+    }
+    .wrap { max-width: 820px; margin: 0 auto; }
+
+    h1 { font-size: 22px; font-weight: 600; color: var(--cyan); letter-spacing: 0.5px; margin-bottom: 4px; }
+    h2 { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin: 28px 0 10px; }
+    h3 { font-size: 15px; font-weight: 600; color: var(--white); margin: 20px 0 6px; }
+    p.lead { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+    code { background: var(--bg-elev); padding: 1px 6px; border-radius: 3px; font-family: "SF Mono", Menlo, monospace; font-size: 12px; color: var(--cyan); }
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 20px; margin-bottom: 16px; }
+
+    .drop-zone {
+        border: 2px dashed var(--border);
+        border-radius: 6px;
+        padding: 48px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 200ms cubic-bezier(0.25,0.46,0.45,0.94);
+        background: var(--panel);
+    }
+    .drop-zone.hover { border-color: var(--cyan); background: var(--bg-elev); }
+    .drop-zone.loaded { border-color: var(--green); border-style: solid; }
+    .drop-zone .icon { font-size: 40px; margin-bottom: 10px; opacity: 0.4; }
+    .drop-zone .label { font-size: 15px; color: var(--white); margin-bottom: 4px; }
+    .drop-zone .hint { font-size: 12px; color: var(--muted); }
+    .drop-zone input[type=file] { display: none; }
+
+    .file-info { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--bg-elev); border-radius: 4px; margin-top: 12px; font-size: 13px; }
+    .file-info .name { color: var(--white); font-family: "SF Mono", Menlo, monospace; }
+    .file-info .stats { color: var(--muted); }
+
+    label.field-label { display: block; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    input[type=text], textarea {
+        width: 100%;
+        padding: 10px 12px;
+        background: var(--bg);
+        color: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: inherit;
+        outline: none;
+    }
+    input[type=text]:focus, textarea:focus { border-color: var(--cyan); }
+    textarea { resize: vertical; min-height: 60px; font-family: "SF Mono", Menlo, monospace; font-size: 13px; }
+
+    .slider-row { display: flex; gap: 16px; margin-top: 14px; }
+    .slider-row > div { flex: 1; }
+    .slider-row label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .slider-row label span { color: var(--cyan); font-weight: 600; }
+    input[type=range] { width: 100%; accent-color: var(--cyan); }
+
+    .button {
+        display: inline-block;
+        padding: 11px 20px;
+        background: var(--cyan);
+        color: var(--bg);
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: inherit;
+        letter-spacing: 0.3px;
+    }
+    .button:disabled { opacity: 0.35; cursor: not-allowed; }
+    .button:not(:disabled):hover { filter: brightness(1.1); }
+    .button.secondary { background: var(--panel); color: var(--white); border: 1px solid var(--border); }
+    .button.secondary:not(:disabled):hover { border-color: var(--cyan); color: var(--cyan); }
+
+    .buttons-row { display: flex; gap: 10px; align-items: center; margin-top: 6px; flex-wrap: wrap; }
+
+    .progress { margin-top: 16px; font-size: 13px; color: var(--muted); }
+    .progress .bar { height: 4px; background: var(--bg); border-radius: 2px; overflow: hidden; margin-top: 6px; }
+    .progress .bar .fill { height: 100%; background: var(--cyan); width: 0%; transition: width 150ms linear; }
+
+    .results { margin-top: 20px; }
+    .result-query { margin-bottom: 18px; padding: 14px 16px; background: var(--bg-elev); border-radius: 4px; border-left: 3px solid var(--cyan); }
+    .result-query .q-label { font-family: "SF Mono", Menlo, monospace; color: var(--cyan); font-size: 13px; font-weight: 600; }
+    .result-query .q-count { color: var(--muted); font-size: 12px; margin-left: 8px; }
+    .result-query .preview { margin-top: 10px; font-size: 12px; color: var(--muted); font-family: "SF Mono", Menlo, monospace; max-height: 120px; overflow: hidden; }
+    .result-query .preview .conv { color: var(--white); }
+    .result-query .preview .match { color: var(--copper); }
+
+    .notice { padding: 12px 14px; border-radius: 4px; font-size: 13px; margin: 14px 0; }
+    .notice.error { background: rgba(208,79,95,0.12); border: 1px solid var(--red); color: var(--white); }
+    .notice.warn { background: rgba(183,112,79,0.12); border: 1px solid var(--copper); color: var(--white); }
+
+    .extend-card { background: transparent; border: 1px dashed var(--border); }
+    .extend-card h2 { margin-top: 0; }
+    .extend-card ul { list-style: none; padding: 0; }
+    .extend-card li { padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .extend-card li:last-child { border-bottom: none; }
+    .extend-card li strong { color: var(--white); display: block; margin-bottom: 2px; }
+    .extend-card li span { color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Conversation Miner</h1>
+<p class="lead">
+    Drop your Claude conversation archive, pick keywords, get a condensed file you can drop into a fresh project's knowledge base. No server, no account, no upload. Runs entirely in your browser.
+</p>
+
+<div class="card">
+    <h2>1. Drop your archive</h2>
+    <div class="drop-zone" id="drop-zone">
+        <div class="icon">&#x25BC;</div>
+        <div class="label">Drop <code>.zip</code> export or <code>conversations.json</code></div>
+        <div class="hint">Or click to choose a file. The archive stays on your machine.</div>
+        <input type="file" id="file-input" accept=".zip,.json,application/json,application/zip" />
+    </div>
+    <div id="file-info" style="display:none;" class="file-info">
+        <span class="name" id="file-info-name"></span>
+        <span class="stats" id="file-info-stats"></span>
+    </div>
+    <div id="load-notice"></div>
+</div>
+
+<div class="card">
+    <h2>2. Pick queries</h2>
+    <label class="field-label" for="queries">Comma-separated keywords. Case-insensitive substring match.</label>
+    <textarea id="queries" placeholder="strategy, prompt, framework">strategy, prompt, framework</textarea>
+
+    <div class="slider-row">
+        <div>
+            <label for="ctx">Context messages <span id="ctx-val">2</span></label>
+            <input type="range" id="ctx" min="0" max="6" value="2" />
+        </div>
+        <div>
+            <label for="cap">Max matches per query <span id="cap-val">20</span></label>
+            <input type="range" id="cap" min="5" max="100" value="20" step="5" />
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>3. Scan</h2>
+    <div class="buttons-row">
+        <button class="button" id="scan-btn" disabled>Scan conversations</button>
+    </div>
+    <div id="progress" class="progress" style="display:none;">
+        <div id="progress-text">Scanning&nbsp;...</div>
+        <div class="bar"><div class="fill" id="progress-fill"></div></div>
+    </div>
+    <div id="results" class="results"></div>
+    <div id="download-row" class="buttons-row" style="display:none; margin-top:20px;">
+        <button class="button" id="download-json">Download JSON</button>
+        <button class="button secondary" id="download-txt">Download plain text</button>
+        <span id="download-size" style="color:var(--muted); font-size:12px;"></span>
+    </div>
+</div>
+
+<div class="card extend-card">
+    <h2>Want more than keyword search?</h2>
+    <p class="lead">This tool is deliberately basic. Three upgrade paths, any AI coding assistant can add them in an hour.</p>
+    <ul>
+        <li>
+            <strong>Semantic search</strong>
+            <span>Replace the substring match with sentence embeddings. Run each message through a local embedding model (transformers.js) or the Claude API. Then rank by cosine similarity to the query. Finds conceptual matches that keywords miss.</span>
+        </li>
+        <li>
+            <strong>LLM-scored quality</strong>
+            <span>After keyword matching, send each hit to Claude with a rubric prompt and keep only the highest-scoring N. Useful when you want "best strategic moments" not just "any message containing the word strategy".</span>
+        </li>
+        <li>
+            <strong>ChatGPT archive support</strong>
+            <span>ChatGPT exports use a different <code>conversations.json</code> shape (messages live under <code>mapping</code>, not <code>chat_messages</code>). Add a format detector and a second extractor. Same drop zone, same output.</span>
+        </li>
+        <li>
+            <strong>Topic clustering</strong>
+            <span>Group matched excerpts by topic before exporting. Use embeddings plus k-means, or ask an LLM to tag each excerpt with one of a predefined topic set.</span>
+        </li>
+        <li>
+            <strong>Direct upload to a new project</strong>
+            <span>Wire the output directly into the Claude Projects API so the condensed file is created and attached in one click. Needs API key handling and appropriate CORS setup.</span>
+        </li>
+    </ul>
+    <p class="lead" style="margin-top:14px;">
+        The source is in this page. Open in an editor, paste into your AI of choice, and ask. If you build one of these and it works well, <a href="https://github.com/framework-creator/framework-standard/pulls">send it back as a pull request</a>. The standard gets better when more people touch it.
+    </p>
+</div>
+
+<p class="lead" style="text-align:center; margin-top:40px; font-size:12px;">
+    Part of the <a href="https://github.com/framework-creator/framework-standard">Portable Framework Format</a>. MIT licensed.
+</p>
+
+</div>
+
+<script>
+(function () {
+    "use strict";
+
+    // -----------------------------------------------------------------
+    // State
+    // -----------------------------------------------------------------
+    const state = {
+        conversations: null,    // Array of { id, name, created_at, messages[] }
+        messageCount: 0,
+        sourceFilename: "",
+        lastResult: null,
+    };
+
+    // -----------------------------------------------------------------
+    // UI refs
+    // -----------------------------------------------------------------
+    const dropZone = document.getElementById("drop-zone");
+    const fileInput = document.getElementById("file-input");
+    const fileInfo = document.getElementById("file-info");
+    const fileInfoName = document.getElementById("file-info-name");
+    const fileInfoStats = document.getElementById("file-info-stats");
+    const loadNotice = document.getElementById("load-notice");
+    const queriesInput = document.getElementById("queries");
+    const ctxSlider = document.getElementById("ctx");
+    const capSlider = document.getElementById("cap");
+    const ctxVal = document.getElementById("ctx-val");
+    const capVal = document.getElementById("cap-val");
+    const scanBtn = document.getElementById("scan-btn");
+    const progress = document.getElementById("progress");
+    const progressText = document.getElementById("progress-text");
+    const progressFill = document.getElementById("progress-fill");
+    const resultsEl = document.getElementById("results");
+    const downloadRow = document.getElementById("download-row");
+    const downloadJsonBtn = document.getElementById("download-json");
+    const downloadTxtBtn = document.getElementById("download-txt");
+    const downloadSize = document.getElementById("download-size");
+
+    ctxSlider.addEventListener("input", () => { ctxVal.textContent = ctxSlider.value; });
+    capSlider.addEventListener("input", () => { capVal.textContent = capSlider.value; });
+
+    // -----------------------------------------------------------------
+    // Drop zone
+    // -----------------------------------------------------------------
+    ["dragenter", "dragover"].forEach(evt => {
+        dropZone.addEventListener(evt, (e) => {
+            e.preventDefault(); e.stopPropagation();
+            dropZone.classList.add("hover");
+        });
+    });
+    ["dragleave", "drop"].forEach(evt => {
+        dropZone.addEventListener(evt, (e) => {
+            e.preventDefault(); e.stopPropagation();
+            dropZone.classList.remove("hover");
+        });
+    });
+    dropZone.addEventListener("drop", (e) => {
+        const f = e.dataTransfer.files[0];
+        if (f) handleFile(f);
+    });
+    dropZone.addEventListener("click", () => fileInput.click());
+    fileInput.addEventListener("change", (e) => {
+        const f = e.target.files[0];
+        if (f) handleFile(f);
+    });
+
+    function showNotice(el, type, msg) {
+        el.innerHTML = `<div class="notice ${type}">${msg}</div>`;
+    }
+    function clearNotice(el) { el.innerHTML = ""; }
+
+    // -----------------------------------------------------------------
+    // File loading: accept .json directly, or .zip (unpack via JSZip)
+    // Claude exports arrive as a .zip containing conversations.json.
+    // -----------------------------------------------------------------
+    async function handleFile(file) {
+        clearNotice(loadNotice);
+        resultsEl.innerHTML = "";
+        downloadRow.style.display = "none";
+        state.lastResult = null;
+
+        fileInfoName.textContent = file.name;
+        fileInfoStats.textContent = formatBytes(file.size);
+        fileInfo.style.display = "flex";
+
+        try {
+            let jsonText = null;
+
+            if (/\.zip$/i.test(file.name)) {
+                if (typeof JSZip === "undefined") {
+                    throw new Error("JSZip failed to load. Check your internet connection and reload.");
+                }
+                showNotice(loadNotice, "warn", "Unpacking archive...");
+                const zip = await JSZip.loadAsync(file);
+                const candidate = findConversationsJson(zip);
+                if (!candidate) {
+                    throw new Error("No conversations.json found inside the archive.");
+                }
+                jsonText = await candidate.async("string");
+            } else if (/\.json$/i.test(file.name)) {
+                jsonText = await file.text();
+            } else {
+                throw new Error("Unsupported file type. Use .zip or .json.");
+            }
+
+            const parsed = JSON.parse(jsonText);
+            const convos = normalizeConversations(parsed);
+            if (!convos.length) {
+                throw new Error("Parsed successfully, but no conversations were found.");
+            }
+
+            state.conversations = convos;
+            state.messageCount = convos.reduce((s, c) => s + c.messages.length, 0);
+            state.sourceFilename = file.name;
+
+            dropZone.classList.add("loaded");
+            fileInfoStats.textContent =
+                `${formatBytes(file.size)} · ${convos.length} conversations · ${state.messageCount.toLocaleString()} messages`;
+            showNotice(loadNotice, "warn", `Loaded. Pick your queries and hit Scan.`);
+            setTimeout(() => clearNotice(loadNotice), 2500);
+            scanBtn.disabled = false;
+        } catch (err) {
+            state.conversations = null;
+            scanBtn.disabled = true;
+            dropZone.classList.remove("loaded");
+            showNotice(loadNotice, "error", `Could not load: ${escapeHtml(err.message || String(err))}`);
+        }
+    }
+
+    function findConversationsJson(zip) {
+        const exact = zip.file("conversations.json");
+        if (exact) return exact;
+        for (const path of Object.keys(zip.files)) {
+            if (/conversations\.json$/i.test(path) && !zip.files[path].dir) return zip.files[path];
+        }
+        return null;
+    }
+
+    // Claude export: top-level is an array of conversation objects.
+    // Each conversation has `chat_messages` (array) or sometimes `messages`.
+    // Each message has a text field (`text`) or content parts.
+    function normalizeConversations(parsed) {
+        if (!Array.isArray(parsed)) {
+            // Some exports wrap the array under { conversations: [...] }
+            if (parsed && Array.isArray(parsed.conversations)) parsed = parsed.conversations;
+            else return [];
+        }
+        const out = [];
+        for (const c of parsed) {
+            if (!c || typeof c !== "object") continue;
+            const messages = extractMessages(c);
+            if (!messages.length) continue;
+            out.push({
+                id: c.uuid || c.id || c.conversation_id || "",
+                name: c.name || c.title || "(untitled)",
+                created_at: c.created_at || c.create_time || "",
+                messages,
+            });
+        }
+        return out;
+    }
+
+    function extractMessages(conv) {
+        const raw = conv.chat_messages || conv.messages || conv.chat || [];
+        if (!Array.isArray(raw)) return [];
+        const out = [];
+        for (const m of raw) {
+            if (!m || typeof m !== "object") continue;
+            const text = messageText(m);
+            if (!text) continue;
+            out.push({
+                sender: (m.sender || m.role || "").toLowerCase() || "unknown",
+                text,
+                created_at: m.created_at || m.create_time || "",
+            });
+        }
+        return out;
+    }
+
+    function messageText(m) {
+        if (typeof m.text === "string" && m.text.trim()) return m.text;
+        // Claude has variant: { content: [{ type: "text", text: "..." }, ...] }
+        if (Array.isArray(m.content)) {
+            return m.content
+                .filter(p => p && p.type === "text" && typeof p.text === "string")
+                .map(p => p.text)
+                .join("\n")
+                .trim();
+        }
+        if (typeof m.content === "string") return m.content.trim();
+        return "";
+    }
+
+    // -----------------------------------------------------------------
+    // Scan
+    // -----------------------------------------------------------------
+    scanBtn.addEventListener("click", async () => {
+        if (!state.conversations) return;
+        const queries = parseQueries(queriesInput.value);
+        if (!queries.length) {
+            showNotice(loadNotice, "error", "Enter at least one keyword.");
+            return;
+        }
+
+        scanBtn.disabled = true;
+        progress.style.display = "block";
+        resultsEl.innerHTML = "";
+        downloadRow.style.display = "none";
+        progressFill.style.width = "0%";
+
+        const ctx = parseInt(ctxSlider.value, 10);
+        const cap = parseInt(capSlider.value, 10);
+
+        // Run scan on a yielded loop so UI stays responsive on large archives.
+        const result = await scanAsync(state.conversations, queries, ctx, cap);
+        state.lastResult = result;
+
+        progress.style.display = "none";
+        renderResults(result);
+        scanBtn.disabled = false;
+
+        const jsonBytes = new Blob([JSON.stringify(result, null, 2)]).size;
+        downloadSize.textContent = "JSON size: " + formatBytes(jsonBytes);
+        downloadRow.style.display = "flex";
+    });
+
+    function parseQueries(input) {
+        return input.split(",")
+            .map(s => s.trim())
+            .filter(s => s.length >= 2);
+    }
+
+    async function scanAsync(conversations, queries, ctx, cap) {
+        const lowerQueries = queries.map(q => q.toLowerCase());
+        const perQuery = {};
+        queries.forEach(q => perQuery[q] = []);
+
+        let processed = 0;
+        const total = conversations.length;
+        const yieldEvery = 40; // yield to UI every N conversations
+
+        for (const conv of conversations) {
+            for (let i = 0; i < conv.messages.length; i++) {
+                const m = conv.messages[i];
+                const lower = m.text.toLowerCase();
+                for (let q = 0; q < lowerQueries.length; q++) {
+                    if (perQuery[queries[q]].length >= cap) continue;
+                    if (lower.indexOf(lowerQueries[q]) >= 0) {
+                        perQuery[queries[q]].push(buildHit(conv, i, ctx));
+                    }
+                }
+            }
+            processed++;
+            if (processed % yieldEvery === 0) {
+                const pct = Math.round((processed / total) * 100);
+                progressText.textContent = `Scanning ${processed.toLocaleString()} / ${total.toLocaleString()} conversations...`;
+                progressFill.style.width = pct + "%";
+                await new Promise(r => setTimeout(r, 0));
+            }
+        }
+
+        const results_by_query = {};
+        for (const q of queries) {
+            results_by_query[q] = {
+                match_count: perQuery[q].length,
+                capped: perQuery[q].length >= cap,
+                matches: perQuery[q],
+            };
+        }
+
+        return {
+            tool: "conversation-miner v1",
+            source_file: state.sourceFilename,
+            scanned_at: new Date().toISOString(),
+            total_conversations: conversations.length,
+            total_messages_scanned: state.messageCount,
+            queries,
+            context_messages: ctx,
+            max_matches_per_query: cap,
+            results_by_query,
+        };
+    }
+
+    function buildHit(conv, matchIdx, ctx) {
+        const start = Math.max(0, matchIdx - ctx);
+        const end = Math.min(conv.messages.length, matchIdx + ctx + 1);
+        return {
+            conversation_id: conv.id,
+            conversation_name: conv.name,
+            conversation_date: conv.created_at,
+            match_index: matchIdx,
+            context_before: conv.messages.slice(start, matchIdx),
+            match_message: conv.messages[matchIdx],
+            context_after: conv.messages.slice(matchIdx + 1, end),
+        };
+    }
+
+    // -----------------------------------------------------------------
+    // Results rendering
+    // -----------------------------------------------------------------
+    function renderResults(result) {
+        const frags = [];
+        frags.push(`<h3>Scanned ${result.total_conversations.toLocaleString()} conversations, ${result.total_messages_scanned.toLocaleString()} messages.</h3>`);
+        for (const q of result.queries) {
+            const r = result.results_by_query[q];
+            const capNote = r.capped ? `<span style="color:var(--copper)"> (cap reached)</span>` : "";
+            let preview = "";
+            if (r.matches.length === 0) {
+                preview = `<div class="preview" style="color:var(--red)">No matches.</div>`;
+            } else {
+                const top = r.matches.slice(0, 2).map(h => {
+                    const snippet = h.match_message.text.slice(0, 180).replace(/\s+/g, " ");
+                    return `<div><span class="conv">${escapeHtml(h.conversation_name)}</span><br>
+                        <span class="match">&gt; ${escapeHtml(snippet)}${h.match_message.text.length > 180 ? "..." : ""}</span></div>`;
+                }).join("<br>");
+                preview = `<div class="preview">${top}</div>`;
+            }
+            frags.push(`<div class="result-query">
+                <span class="q-label">${escapeHtml(q)}</span>
+                <span class="q-count">${r.match_count} match${r.match_count === 1 ? "" : "es"}${capNote}</span>
+                ${preview}
+            </div>`);
+        }
+        resultsEl.innerHTML = frags.join("");
+    }
+
+    // -----------------------------------------------------------------
+    // Downloads
+    // -----------------------------------------------------------------
+    downloadJsonBtn.addEventListener("click", () => {
+        if (!state.lastResult) return;
+        const content = JSON.stringify(state.lastResult, null, 2);
+        downloadBlob(content, "application/json", suggestedFilename("json"));
+    });
+
+    downloadTxtBtn.addEventListener("click", () => {
+        if (!state.lastResult) return;
+        const content = renderPlainText(state.lastResult);
+        downloadBlob(content, "text/plain", suggestedFilename("txt"));
+    });
+
+    function renderPlainText(result) {
+        const lines = [];
+        lines.push(`Conversation Miner Results`);
+        lines.push(`Source: ${result.source_file}`);
+        lines.push(`Scanned at: ${result.scanned_at}`);
+        lines.push(`${result.total_conversations.toLocaleString()} conversations, ${result.total_messages_scanned.toLocaleString()} messages.`);
+        lines.push(`Context: ${result.context_messages} messages before and after each match. Cap: ${result.max_matches_per_query} matches per query.`);
+        lines.push("");
+
+        for (const q of result.queries) {
+            const r = result.results_by_query[q];
+            lines.push(`========================================================================`);
+            lines.push(`QUERY: "${q}"`);
+            lines.push(`${r.match_count} match${r.match_count === 1 ? "" : "es"}${r.capped ? " (cap reached)" : ""}`);
+            lines.push(`========================================================================`);
+            lines.push("");
+            r.matches.forEach((hit, i) => {
+                lines.push(`--- Match ${i + 1} of ${r.match_count} ---`);
+                lines.push(`Conversation: ${hit.conversation_name}`);
+                if (hit.conversation_date) lines.push(`Date: ${hit.conversation_date}`);
+                lines.push("");
+                for (const m of hit.context_before) {
+                    lines.push(`[${m.sender}] ${m.text}`);
+                    lines.push("");
+                }
+                lines.push(`>>> [${hit.match_message.sender}] ${hit.match_message.text}`);
+                lines.push("");
+                for (const m of hit.context_after) {
+                    lines.push(`[${m.sender}] ${m.text}`);
+                    lines.push("");
+                }
+            });
+            lines.push("");
+        }
+        return lines.join("\n");
+    }
+
+    function suggestedFilename(ext) {
+        const base = (state.sourceFilename || "conversations").replace(/\.(zip|json)$/i, "");
+        const stamp = new Date().toISOString().slice(0, 10);
+        return `${base}__mined_${stamp}.${ext}`;
+    }
+
+    function downloadBlob(content, mime, filename) {
+        const blob = new Blob([content], { type: mime });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 100);
+    }
+
+    // -----------------------------------------------------------------
+    // Utils
+    // -----------------------------------------------------------------
+    function formatBytes(n) {
+        if (n < 1024) return n + " B";
+        if (n < 1024 * 1024) return (n / 1024).toFixed(1) + " KB";
+        if (n < 1024 * 1024 * 1024) return (n / (1024 * 1024)).toFixed(1) + " MB";
+        return (n / (1024 * 1024 * 1024)).toFixed(2) + " GB";
+    }
+
+    function escapeHtml(s) {
+        return String(s == null ? "" : s)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+    }
+})();
+</script>
+</body>
+</html>

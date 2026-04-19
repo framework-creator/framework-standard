@@ -33,6 +33,7 @@ This spec is derived from a library of 611 frameworks built over two years. It f
 - `examples/`, four example frameworks showing the format in practice
 - `tools/`, Python CLI for ingesting, searching, exporting, and graphing a framework library (standard library only, no dependencies)
 - `graph.html`, visual explorer for navigating framework relationships
+- `conversation-miner.html`, drop a Claude export archive, pick keywords, get a condensed file you can drop into a fresh project's knowledge base. Browser-only, no server.
 
 ## The examples
 
@@ -62,14 +63,18 @@ python3 tools/graph.py --db library.db --out graph.json
 open graph.html
 ```
 
-## What's next
+## Contributing
 
-- Conversation export extraction tools (turn Claude or ChatGPT history into structured frameworks).
+Every tool in this repo is deliberately minimal, with an extension-paths list inside it that doubles as a pull-request menu. Pick one and send it back. Current upgrade paths worth building:
+
+- Semantic search over conversation exports (embeddings, not just keywords).
+- LLM-scored quality ranking for mined excerpts.
+- ChatGPT archive support for the conversation miner (different JSON shape, same drop zone).
 - Expanded relationship enrichment for the canonical library.
-- Community framework submission process.
-- Integration examples for popular AI systems.
+- Direct Claude Projects API integration.
+- Framework submission process and community library.
 
-Contributions welcome. This is early infrastructure and the standard will evolve through real-world use.
+This is early infrastructure and the standard will evolve through real-world use. Open a PR, file an issue, or fork and run with it.
 
 ## Related
 
