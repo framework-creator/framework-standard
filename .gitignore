@@ -1,4 +1,6 @@
 # Private library and derived artifacts (not for public repo)
+# NEVER commit anything derived from your full SIOS library.
+# The repo's graph.json and graph.js must always be the 4-example demo.
 library.db
 library-*.db
 library-test.db
@@ -6,6 +8,10 @@ roundtrip.db
 exported/
 exported-enriched/
 exported-pre-enrichment/
+full-graph.json
+full-graph.js
+library-graph.json
+library-graph.js
 
 # Recording pipeline artifacts (kept local, not shipped)
 video/
