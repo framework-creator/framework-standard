@@ -1,0 +1,160 @@
+{
+  "_spec_version": "1.0",
+  "framework_id": "FRAMEWORK-CONTRADICTION-001",
+  "name": "Contradiction Resolver",
+  "version": "1.0.0",
+  "created_date": "2026-04-24",
+  "updated_date": "2026-04-24",
+  "status": "active",
+  "creator": "Grok (xAI) + framework-creator",
+  "synopsis": "An eight-to-twelve-minute protocol for the moment two frameworks give conflicting advice. Surfaces the exact point of conflict, names the higher-order goal each framework is serving, forces an explicit trade-off, and documents the ruling so the same battle doesn't have to be fought twice. The meta-framework that makes a framework library a coherent system instead of a pile of tools.",
+  "origin_story": "Proposed by Grok (xAI) after building five component frameworks and observing that once you have a library, you need resolution logic for when the library disagrees with itself. Identified as the natural next layer above a component collection: routing picks a framework, but when two fire, something has to pick between them.",
+  "classification": {
+    "domain": "meta_reasoning",
+    "category": "conflict_resolution",
+    "series": "META",
+    "tier": "meta",
+    "tags": ["meta_reasoning", "conflict_resolution", "framework_hierarchy", "trade_off_mapping"],
+    "triggers": [
+      "two frameworks disagree",
+      "this feels contradictory",
+      "which framework should I trust here",
+      "my frameworks are giving me conflicting advice",
+      "stalled because two approaches say different things"
+    ]
+  },
+  "layer_1_principles_foundation": {
+    "core_principles": [
+      {
+        "principle": "Frameworks are tools, not truths. When they clash, the human chooses.",
+        "description": "No framework is universally correct. Each optimizes for something specific and sometimes those somethings conflict. Pretending one framework is always right produces worse outcomes than accepting that context determines the winner."
+      },
+      {
+        "principle": "A named trade-off beats an unconscious contradiction every time.",
+        "description": "Most stuck decisions are actually unnamed contradictions. You know something is off but cannot articulate what. Naming the specific conflict turns paralysis into a choice. The choice might still be hard, but now it can be made."
+      },
+      {
+        "principle": "The resolution itself becomes reusable knowledge.",
+        "description": "Each ruling is a precedent. Over time, your documented resolutions become a personal framework hierarchy that prevents re-fighting the same conflict. The log is more valuable than any single ruling."
+      }
+    ]
+  },
+  "layer_2_systematic_approach": {
+    "methodology": "Four-step resolution protocol",
+    "steps": [
+      {
+        "step": 1,
+        "name": "Identify the exact contradiction",
+        "description": "Write the two opposing recommendations side by side. One sentence each. If you cannot state them cleanly in parallel, the contradiction may be imagined; re-read the frameworks' actual outputs before continuing."
+      },
+      {
+        "step": 2,
+        "name": "Name the core trade-off",
+        "description": "For each framework, identify what it is optimizing for. Speed vs. accuracy. Resilience vs. leverage. Short-term clarity vs. long-term flexibility. The trade-off is usually a pair of values that are both good but in tension."
+      },
+      {
+        "step": 3,
+        "name": "Choose the hierarchy for this context",
+        "description": "Which value wins here, and why? The why matters. 'Because speed matters more for this specific decision under current constraints' is a real reason. 'Because I feel like it' is not, and the ruling won't survive review."
+      },
+      {
+        "step": 4,
+        "name": "Document the ruling",
+        "description": "Record the decision in a personal framework hierarchy log. Include: what the contradiction was, what you chose, the reason, and whether this ruling is specific to this context or general. Over time these rulings form your personal decision constitution."
+      }
+    ]
+  },
+  "layer_3_force_multipliers": {
+    "primary_multipliers": [
+      {
+        "name": "Framework hierarchy as compounding asset",
+        "mechanism": "Every ruling adds to your personal hierarchy. After a year of use, you have a documented set of precedents that resolve most recurring contradictions automatically. New users of your framework library can read your hierarchy and absorb your judgment without having to re-derive it.",
+        "estimated_return": "For teams or individuals with 10+ frameworks in active use, a hierarchy log typically eliminates most recurring contradictions within six months, freeing up decision capacity for novel conflicts."
+      },
+      {
+        "name": "Contradictions become learning moments",
+        "mechanism": "Treating framework conflict as information rather than a bug reframes the experience entirely. The contradiction is telling you something important about the boundary conditions of both frameworks. That information is usually more valuable than the decision the framework is being asked to make.",
+        "interaction_effects": "Pairs with First Principles Compression (contradictions often surface buried assumptions worth compressing) and Feedback Loop Optimizer (track which resolution types recur, then improve the frameworks upstream)."
+      },
+      {
+        "name": "Unlocks framework libraries at scale",
+        "mechanism": "Below about five frameworks, contradictions are rare enough to resolve ad hoc. Above that, conflicts compound and unmanaged libraries produce decision paralysis. This framework is the load-bearing protocol that lets a library grow past the ad-hoc ceiling."
+      }
+    ]
+  },
+  "layer_4_success_metrics": {
+    "leading_indicators": [
+      "Every run produces a side-by-side statement of the two recommendations.",
+      "The core trade-off is named in terms of values, not just actions.",
+      "The ruling is documented with its reasoning."
+    ],
+    "lagging_indicators": [
+      "Recurring contradictions decrease over months of use as precedents accumulate.",
+      "Decision paralysis on multi-framework sessions drops measurably."
+    ],
+    "failure_modes": [
+      {
+        "mode": "Premature resolution",
+        "symptom": "You picked one framework without actually naming what the other was optimizing for. The trade-off is unarticulated. The ruling won't survive review or repeat.",
+        "resolution": "Step two is non-optional. If you cannot state what the losing framework was trying to protect, you haven't resolved the contradiction; you've just ignored one side."
+      },
+      {
+        "mode": "Universal precedent",
+        "symptom": "Every ruling gets labeled 'general principle, applies everywhere.' Over time this produces a rigid hierarchy that misapplies itself to new contexts.",
+        "resolution": "Default to context-specific. Elevate to general only after a ruling has held up across three or four dissimilar situations. The hierarchy benefits from being slow to generalize."
+      }
+    ],
+    "red_flags_do_not_use_when": [
+      "Only one framework is actually firing. Before running, confirm both frameworks really apply.",
+      "The frameworks agree on the action but disagree on the reasoning. That is not a contradiction; that is a bonus."
+    ]
+  },
+  "layer_5_implementation_guidance": {
+    "entry_conditions": {
+      "required": [
+        "Two frameworks that have both fired and produced different recommendations.",
+        "Eight to twelve uninterrupted minutes.",
+        "A place to record the ruling for future reference."
+      ],
+      "optimal": [
+        "An existing hierarchy log where previous rulings live.",
+        "A second person to review the ruling before it gets filed."
+      ]
+    },
+    "exit_conditions": [
+      "Side-by-side statement of the two conflicting recommendations.",
+      "A named trade-off in terms of values.",
+      "A ruling with a written reason.",
+      "The ruling filed in your hierarchy log."
+    ],
+    "deployment_contexts": [
+      {
+        "context": "Personal framework library maintenance",
+        "description": "When your own library of thinking tools has grown past five or six frameworks and conflicts are starting to emerge, this becomes the weekly or monthly discipline that keeps the library coherent."
+      },
+      {
+        "context": "Team decision-making",
+        "description": "When team members champion different frameworks on the same problem. The protocol surfaces that the disagreement is about values, not facts, which usually changes the conversation."
+      },
+      {
+        "context": "Stalled progress debugging",
+        "description": "When a project or decision has been stuck for days with no clear cause, there is often a hidden framework contradiction underneath. This framework surfaces it."
+      }
+    ]
+  },
+  "relationships": {
+    "depends_on": [],
+    "extends": [],
+    "related_to": [],
+    "triggers": [],
+    "conflicts_with": [],
+    "parent_of": [],
+    "child_of": []
+  },
+  "evidence_base": {
+    "validation_sources": [
+      "Theoretical framework, not yet validated with documented user evidence.",
+      "Addresses a gap Grok (xAI) identified while examining the SIOS architecture: routing layers get you to the right framework, but library-level conflict resolution is typically left to the human with no explicit protocol."
+    ]
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "_spec_version": "1.0",
+  "framework_id": "FRAMEWORK-ARCHAEOLOGY-001",
+  "name": "Prompt Archaeology",
+  "version": "1.0.0",
+  "created_date": "2026-04-24",
+  "updated_date": "2026-04-24",
+  "status": "active",
+  "creator": "Grok (xAI) + framework-creator",
+  "synopsis": "An eight-to-fifteen-minute excavation protocol for existing prompts and AI systems that are producing mediocre output. Diagnoses why, identifies the buried assumption or constraint causing the drift, and upgrades the prompt through evolution rather than rewrite.",
+  "origin_story": "Built April 2026 by Grok (xAI) during a spec-driven framework session. Added explicit force multiplier structure after reading whatisaframework.com.",
+  "classification": {
+    "domain": "prompt_engineering",
+    "category": "system_design",
+    "series": "ARCHAEOLOGY",
+    "tier": "component",
+    "tags": ["prompt_engineering", "prompt_upgrade", "system_debug", "refinement"],
+    "triggers": [
+      "this prompt could be better",
+      "why is this not working",
+      "the output is consistently off",
+      "inherited a messy prompt",
+      "upgrade this prompt"
+    ]
+  },
+  "layer_1_principles_foundation": {
+    "core_principles": [
+      {
+        "principle": "Every prompt is an archaeological site with buried assumptions and constraints.",
+        "description": "Prompts accrete. Someone added a constraint, someone else added an edge-case fix, someone else added a preamble to reduce a failure mode that no longer exists. The layers are still there, shaping output in ways nobody remembers. Excavation beats rewrite."
+      },
+      {
+        "principle": "The best prompts are evolved, not invented from scratch.",
+        "description": "Starting over loses all the hard-won behavior the current prompt does correctly. Evolution keeps what works, changes what doesn't, and leaves a traceable history. Rewriting throws away information."
+      },
+      {
+        "principle": "Failure modes live in the gap between stated intent and buried constraint.",
+        "description": "When output drifts, the cause is usually a constraint deeper in the prompt that contradicts the surface instruction. The drift is the constraint winning. Finding that constraint is the whole game."
+      }
+    ]
+  },
+  "layer_2_systematic_approach": {
+    "methodology": "Six-layer excavation",
+    "steps": [
+      {
+        "step": 1,
+        "name": "Surface intent",
+        "description": "Write in one sentence what the prompt is actually supposed to do. Do not read the prompt first. The gap between your answer and what the prompt does is the excavation target."
+      },
+      {
+        "step": 2,
+        "name": "Artifact inventory",
+        "description": "Read the prompt line by line. List every constraint, instruction, example, and fragment. Note which are load-bearing, which are historical, and which are unclear."
+      },
+      {
+        "step": 3,
+        "name": "Assumption audit",
+        "description": "For each load-bearing piece, ask: what does this assume about the user, the model, or the context? Write down the implicit premises. Surface them explicitly."
+      },
+      {
+        "step": 4,
+        "name": "Leak detection",
+        "description": "Identify where the stated intent and the buried constraints disagree. These are the leaks causing drift. Mark them for change."
+      },
+      {
+        "step": 5,
+        "name": "Evolution upgrade",
+        "description": "Rewrite only the leaking pieces. Keep the rest. Track what you changed and why. If you find yourself rewriting more than half, stop. You are no longer excavating; you are starting over."
+      },
+      {
+        "step": 6,
+        "name": "Test and iterate",
+        "description": "Run the upgraded prompt against at least three cases including one edge case that caused the original drift. If the drift persists, return to step three and look deeper."
+      }
+    ]
+  },
+  "layer_3_force_multipliers": {
+    "primary_multipliers": [
+      {
+        "name": "Evolution compounds; rewrites reset",
+        "mechanism": "Evolved prompts carry forward every edge case solved by previous versions. Each excavation cycle makes the prompt incrementally stronger. Rewriting loses that history and reintroduces old failure modes the team already solved.",
+        "estimated_return": "Over months, an evolved prompt is typically 3 to 5 times more robust than a same-age rewritten one, with fewer regressions."
+      },
+      {
+        "name": "The assumption audit generalizes",
+        "mechanism": "The habit of naming buried assumptions transfers from prompts to any system that accrues constraints over time: onboarding documents, legal contracts, process docs, marketing copy. The excavation skill is the real return.",
+        "interaction_effects": "Pairs naturally with the Socratic Stress Test. One surfaces assumptions in your own arguments; the other does it in systems you inherited."
+      },
+      {
+        "name": "Prompt library as compounding asset",
+        "mechanism": "Teams that excavate rather than rewrite build a prompt library where each entry's evolution history is itself reusable knowledge. The library appreciates with use instead of needing continual maintenance."
+      }
+    ]
+  },
+  "layer_4_success_metrics": {
+    "leading_indicators": [
+      "The upgraded prompt changes less than half of the original. If more, you rewrote.",
+      "Every change has a named reason: a specific leak it closes.",
+      "Edge cases that caused the original drift are in the test set."
+    ],
+    "lagging_indicators": [
+      "Prompt-iteration cycle time drops over successive excavations.",
+      "The prompt's maintenance frequency decreases as drift sources get flushed."
+    ],
+    "failure_modes": [
+      {
+        "mode": "Rewrite dressed as excavation",
+        "symptom": "Step five produces a prompt that shares almost nothing with the original. You called it excavation; it was actually a rewrite.",
+        "resolution": "If more than half the prompt changed, restart the process. Go back to step one and constrain yourself to changing only what you can trace to a specific leak."
+      },
+      {
+        "mode": "Surface-level audit",
+        "symptom": "The assumption audit in step three produces obvious premises (like 'the user wants accurate output') and the real buried constraint is never named.",
+        "resolution": "Push one level deeper. For each audit entry, ask 'what would break if this assumption were wrong?' until you find the assumption whose failure matches the observed drift."
+      }
+    ],
+    "red_flags_do_not_use_when": [
+      "The prompt is brand new and has no accumulated constraints to excavate.",
+      "The prompt's purpose has fundamentally changed and rewriting is the correct move."
+    ]
+  },
+  "layer_5_implementation_guidance": {
+    "entry_conditions": {
+      "required": [
+        "An existing prompt or system that is producing imperfect output.",
+        "Access to at least one or two example outputs that demonstrate the drift.",
+        "Eight to fifteen minutes."
+      ],
+      "optimal": [
+        "A version history of the prompt so you can see what was added when.",
+        "Notes from the team about edge cases the prompt was originally written to solve."
+      ]
+    },
+    "exit_conditions": [
+      "A named leak or set of leaks between intent and buried constraint.",
+      "An upgraded prompt that changed only the leaking pieces.",
+      "A short note documenting what changed and why.",
+      "A test set including at least one edge case from the original drift."
+    ],
+    "deployment_contexts": [
+      {
+        "context": "Debugging AI output drift",
+        "description": "When a previously reliable prompt starts producing off outputs, excavate before rewriting."
+      },
+      {
+        "context": "Inherited prompt cleanup",
+        "description": "Taking over a prompt someone else built. The excavation surfaces what the original author was solving for so you don't break it."
+      },
+      {
+        "context": "Pre-deployment hardening",
+        "description": "Running excavation on a prompt before shipping to production. Surfaces the buried constraints before users find them."
+      }
+    ]
+  },
+  "relationships": {
+    "depends_on": [],
+    "extends": [],
+    "related_to": [],
+    "triggers": [],
+    "conflicts_with": [],
+    "parent_of": [],
+    "child_of": []
+  },
+  "evidence_base": {
+    "validation_sources": [
+      "Theoretical framework, not yet validated with documented user evidence.",
+      "Pattern mirrors software refactoring tradition (evolve the existing, do not rewrite from zero)."
+    ]
+  }
+}

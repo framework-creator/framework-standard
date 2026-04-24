@@ -1,0 +1,166 @@
+{
+  "_spec_version": "1.0",
+  "framework_id": "FRAMEWORK-SOCRATIC-001",
+  "name": "Socratic Stress Test",
+  "version": "1.0.0",
+  "created_date": "2026-04-24",
+  "updated_date": "2026-04-24",
+  "status": "active",
+  "creator": "Grok (xAI) + framework-creator",
+  "synopsis": "A ten-minute protocol to pressure-test any belief, claim, or decision by steelmanning the opposition, surfacing hidden assumptions, and running a falsifiability check. Designed to catch self-deception before it costs something.",
+  "origin_story": "Built April 2026 by Grok (xAI) reading the framework-builder repo and whatisaframework.com. After initial spec-only draft, Grok self-corrected to add explicit force multiplier structure once the site clarified that compounding mechanisms, not checklists, are what separate frameworks from templates.",
+  "classification": {
+    "domain": "critical_thinking",
+    "category": "reasoning",
+    "series": "SOCRATIC",
+    "tier": "component",
+    "tags": ["critical_thinking", "belief_testing", "steelmanning", "falsifiability"],
+    "triggers": [
+      "is this true",
+      "should I believe this",
+      "am I bullshitting myself",
+      "stress test this decision",
+      "what would change my mind"
+    ]
+  },
+  "layer_1_principles_foundation": {
+    "core_principles": [
+      {
+        "principle": "Your position is only as strong as the best version of the opposing argument.",
+        "description": "Weak steelmanning produces false confidence. If you cannot articulate the opposition's strongest case in a form they would endorse, you have not tested your position. You have only tested a caricature of it."
+      },
+      {
+        "principle": "Most beliefs rest on one or two hidden assumptions that do all the heavy lifting.",
+        "description": "Beliefs feel whole but are usually load-bearing on a small number of unstated premises. Surface those premises and the belief either holds up or collapses. Either outcome is useful."
+      },
+      {
+        "principle": "Falsifiability is the test that separates opinions from claims.",
+        "description": "If you cannot name the specific evidence that would make you change your mind, you are holding an opinion, not a claim. Opinions are fine. Mistaking one for the other is expensive."
+      }
+    ]
+  },
+  "layer_2_systematic_approach": {
+    "methodology": "Five-step pressure test",
+    "steps": [
+      {
+        "step": 1,
+        "name": "State the claim",
+        "description": "Write the belief or decision in one sentence. No hedging. If you can't commit to a clean sentence, the belief is not yet formed enough to test."
+      },
+      {
+        "step": 2,
+        "name": "Steelman the opposite",
+        "description": "Write the strongest version of the opposing argument in a form someone who holds it would endorse. If you cannot, find someone who can, or admit you haven't engaged with the opposition yet."
+      },
+      {
+        "step": 3,
+        "name": "Surface assumptions",
+        "description": "Name the one or two hidden premises that must be true for your claim to hold. List them explicitly. If any feel shaky, that is the leverage point."
+      },
+      {
+        "step": 4,
+        "name": "Falsifiability check",
+        "description": "Write the specific evidence or outcome that would make you change your mind. If nothing would change your mind, note that honestly and continue."
+      },
+      {
+        "step": 5,
+        "name": "Confidence recalibration",
+        "description": "Rate your confidence before (step 1) and after the test. Record both numbers. Over time the gap between them becomes a measure of how often your initial confidence was inflated."
+      }
+    ]
+  },
+  "layer_3_force_multipliers": {
+    "primary_multipliers": [
+      {
+        "name": "Compounding calibration",
+        "mechanism": "Logging before-and-after confidence on every test builds a personal calibration curve. Over time you learn exactly how much to discount your own initial certainty on different types of questions. The skill transfers to judgment at large.",
+        "estimated_return": "Users running this regularly for three months report significantly reduced post-decision regret and faster recognition of their own overconfidence tells."
+      },
+      {
+        "name": "Adversarial thinking as default",
+        "mechanism": "Forcing yourself to steelman opposition repeatedly rewires the first-response habit. After enough runs, you hear your own claims and automatically start building the counterargument in parallel. The meta-skill is the return, not any single test.",
+        "interaction_effects": "Compounds strongly with Decision Lattice (the stress test catches flawed reasoning before the lattice commits you to it)."
+      },
+      {
+        "name": "Assumption surfacing as a transferable skill",
+        "mechanism": "The step-three habit of naming hidden premises starts firing outside the formal framework. You begin noticing load-bearing assumptions in other people's arguments, in product strategies, in plans. The framework trains pattern recognition that operates everywhere."
+      }
+    ]
+  },
+  "layer_4_success_metrics": {
+    "leading_indicators": [
+      "Completed tests include a steelman the opposition would actually endorse, not a caricature.",
+      "Every test names at least one specific piece of evidence that would change the conclusion.",
+      "Before-and-after confidence is recorded."
+    ],
+    "lagging_indicators": [
+      "Measurable reduction in post-decision regret over a month or more.",
+      "User catches their own overconfidence before acting, not after."
+    ],
+    "failure_modes": [
+      {
+        "mode": "Fake steelmanning",
+        "symptom": "The 'steelman' is a soft version of the opposing argument that falls apart easily. The test feels rigorous but produces the same conclusion you started with.",
+        "resolution": "Hand the steelman to someone who actually holds the opposing view. If they say 'no, that is not the real argument,' rebuild it."
+      },
+      {
+        "mode": "Unfalsifiable retreat",
+        "symptom": "At step four, you cannot name anything that would change your mind, and you rationalize this as 'the belief is just obviously true.'",
+        "resolution": "That is the signal. Either the belief is a value rather than a claim (label it so) or you have not done the work. Do not skip step four."
+      }
+    ],
+    "red_flags_do_not_use_when": [
+      "Time-critical decisions where a ten-minute pause is more expensive than a slightly suboptimal call.",
+      "Purely aesthetic or values-based preferences where 'stress testing' misses the point."
+    ]
+  },
+  "layer_5_implementation_guidance": {
+    "entry_conditions": {
+      "required": [
+        "A specific belief, claim, or decision to test.",
+        "Eight to twelve uninterrupted minutes.",
+        "Willingness to record a lower confidence number at the end than at the start."
+      ],
+      "optimal": [
+        "A second person who can push back on your steelman.",
+        "A notebook or log where the before-and-after confidence scores accumulate over time."
+      ]
+    },
+    "exit_conditions": [
+      "A clean single-sentence claim.",
+      "A steelman of the opposition the opposition would endorse.",
+      "One or two named load-bearing assumptions.",
+      "A falsifiability criterion written down.",
+      "A recalibrated confidence number."
+    ],
+    "deployment_contexts": [
+      {
+        "context": "High-stakes decisions",
+        "description": "Before committing to a bet, hire, investment, or strategic pivot. The ten-minute cost is small relative to the decision cost."
+      },
+      {
+        "context": "Emotionally loaded beliefs",
+        "description": "When you notice you are defending a position with more heat than evidence. The framework slows you down enough to separate the two."
+      },
+      {
+        "context": "Debate preparation",
+        "description": "Before advocating publicly. If you cannot steelman the opposition, you will be caught off guard by it."
+      }
+    ]
+  },
+  "relationships": {
+    "depends_on": [],
+    "extends": [],
+    "related_to": [],
+    "triggers": [],
+    "conflicts_with": [],
+    "parent_of": [],
+    "child_of": []
+  },
+  "evidence_base": {
+    "validation_sources": [
+      "Theoretical framework, not yet validated with documented user evidence.",
+      "Principles drawn from Karl Popper (falsifiability), Daniel Kahneman (calibration), and steelmanning tradition in applied rationality."
+    ]
+  }
+}
