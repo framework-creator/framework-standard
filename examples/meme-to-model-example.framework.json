@@ -1,0 +1,160 @@
+{
+  "_spec_version": "1.0",
+  "framework_id": "FRAMEWORK-MEME-001",
+  "name": "Meme-to-Model",
+  "version": "1.0.0",
+  "created_date": "2026-04-24",
+  "updated_date": "2026-04-24",
+  "status": "active",
+  "creator": "Grok + framework-creator",
+  "synopsis": "Take any viral meme, cultural trope, or internet joke and turn it into a sharp, reusable mental model in under ten minutes. The format that goes viral is the format that compressed a true-enough pattern into something sticky. This framework reverse-engineers the compression, extracts the pattern, and converts it into a one-sentence rule you can actually use. Fun to run, fast to learn, produces mental models your team will remember.",
+  "origin_story": "Drafted during the April 24 2026 session after the more serious meta-cognition batch (Socratic Stress Test, Decision Lattice, etc.). Mike asked for something more fun after the stack and this came out of the break. The insight: the internet is an involuntary global experiment in which compressions of reality are sticky enough to survive transmission. What survives is structurally a mental model.",
+  "classification": {
+    "domain": "creative_thinking",
+    "category": "mental_models",
+    "series": "MEME",
+    "tier": "component",
+    "tags": ["creative_thinking", "mental_models", "pattern_recognition", "cultural_compression", "playful"],
+    "triggers": [
+      "this meme is too true",
+      "that meme is literally me",
+      "why is this meme so accurate",
+      "turn this joke into a framework",
+      "what does this meme actually mean"
+    ]
+  },
+  "layer_1_principles_foundation": {
+    "core_principles": [
+      {
+        "principle": "Memes survive because they compress a deep truth into something sticky.",
+        "description": "Virality is a filter. A meme that spreads is one that enough people recognized as true-enough to share. The recognition step is the tell. If millions of people feel seen by a format, the format has encoded a real pattern about human behavior, decisions, or situations. That pattern is extractable.",
+        "evidence": "Every durable meme format (distracted boyfriend, this is fine, change my mind, one does not simply) maps cleanly onto a named behavioral pattern in psychology, economics, or decision theory. The meme came first; the academic language, if it exists at all, came later and reached fewer people."
+      },
+      {
+        "principle": "The internet accidentally generates better mental models than textbooks.",
+        "description": "Textbooks optimize for authority and precision. Memes optimize for recognition and recall. A mental model you can recall at the moment you need it beats a precise model that lives in a book on a shelf. Memes win the recall contest because they were selected for it."
+      },
+      {
+        "principle": "Humor is a cognitive handle, not a distraction.",
+        "description": "The laugh is the memory cue. Naming a mental model after its meme origin (distracted boyfriend syndrome, change my mind syndrome) makes the model portable across conversations without a lecture. Teams adopt meme-named models faster than textbook-named ones."
+      }
+    ]
+  },
+  "layer_2_systematic_approach": {
+    "methodology": "Four-step translation from meme to reusable mental model",
+    "steps": [
+      {
+        "step": 1,
+        "name": "Decode the meme",
+        "description": "Strip the joke. Ask: what uncomfortable or true-enough observation about human behavior is this meme actually making? Write it in one plain sentence without trying to be funny."
+      },
+      {
+        "step": 2,
+        "name": "Extract the pattern",
+        "description": "Name the repeatable situation the meme captures. Who does this, to whom, when, under what conditions. The meme is a single instance. The pattern is the general shape the meme is one instance of."
+      },
+      {
+        "step": 3,
+        "name": "Map to real life",
+        "description": "Where does this pattern actually show up in work, decisions, relationships, or strategy? Name two or three specific contexts where you'd recognize it happening. Concrete beats abstract."
+      },
+      {
+        "step": 4,
+        "name": "Build the model",
+        "description": "Turn the pattern into a one-sentence rule or filter you can run in the moment. Name it after the meme so the recall handle stays attached. Write it short enough to say out loud."
+      }
+    ]
+  },
+  "layer_3_force_multipliers": {
+    "primary_multipliers": [
+      {
+        "name": "Pattern recognition transfer",
+        "mechanism": "Once you practice reverse-engineering viral compression into mental models, you start seeing compressed patterns everywhere else. Advertising, song lyrics, office politics, product naming. The skill generalizes well beyond memes to any cultural artifact.",
+        "estimated_return": "After building three or four meme-derived models, users report unprompted pattern-spotting across unrelated domains within two weeks."
+      },
+      {
+        "name": "Mnemonic stickiness",
+        "mechanism": "Models named after their meme origin travel through a team faster than academic terms. 'Is this a distracted boyfriend decision?' gets understood instantly. 'Is this an opportunity-cost-blind preference reversal?' does not.",
+        "estimated_return": "Adoption rate across a team is typically two to three times higher for meme-named mental models than for equivalent textbook-named ones."
+      },
+      {
+        "name": "Low-stakes entry point",
+        "mechanism": "Meme-to-Model is fun. It's the framework you can run at a coffee break. Teams that find frameworks intimidating often adopt this one first, which lowers the activation energy for adopting the more serious frameworks later.",
+        "interaction_effects": "Often serves as a gateway framework. A user who runs Meme-to-Model once is measurably more likely to later try Socratic Stress Test, Decision Lattice, or the heavier analytical frameworks in the library."
+      }
+    ]
+  },
+  "layer_4_success_metrics": {
+    "leading_indicators": [
+      "User can name at least three memes that cleanly map to a real-life behavioral pattern.",
+      "The output model is a single sentence short enough to say out loud.",
+      "The model gets named after the meme for recall."
+    ],
+    "lagging_indicators": [
+      "User starts using meme-named mental models in actual work conversations.",
+      "Team adopts at least one meme-derived model as a shared shortcut."
+    ],
+    "failure_modes": [
+      {
+        "mode": "Overextraction",
+        "symptom": "Forcing every meme into a model, including ones that are just jokes without a pattern underneath.",
+        "resolution": "If step 1 (decode) produces a stretched or tortured reading, drop it. Not every meme compresses a pattern. The good ones do; the others are just funny."
+      },
+      {
+        "mode": "Academic drift",
+        "symptom": "The one-sentence model ends up sounding like a textbook. Sentences with words like 'heuristic' or 'cognitive bias framework' in them.",
+        "resolution": "Rewrite the model using the language the meme itself uses. If the meme is 'this is fine,' the model keeps 'this is fine' in it."
+      }
+    ],
+    "red_flags_do_not_use_when": [
+      "You need a rigorous academically-defensible model for publication or formal decision-making.",
+      "The stakes of the decision are high enough that the humor gets in the way of seriousness."
+    ]
+  },
+  "layer_5_implementation_guidance": {
+    "entry_conditions": {
+      "required": [
+        "A specific meme, cultural trope, or internet joke in mind.",
+        "Six to ten uninterrupted minutes."
+      ],
+      "optimal": [
+        "A team or group to run it with (models built collaboratively are remembered better than solo).",
+        "A recent frustration or pattern you've been trying to name but haven't found the words for."
+      ]
+    },
+    "exit_conditions": [
+      "A one-sentence mental model named after the meme.",
+      "At least two real-life contexts where you'd apply it.",
+      "The model is short enough that you could text it to a teammate."
+    ],
+    "deployment_contexts": [
+      {
+        "context": "Team workshops",
+        "description": "Great warm-up exercise before harder strategic work. Low stakes, high engagement, produces shared vocabulary."
+      },
+      {
+        "context": "Boredom breaks",
+        "description": "When you're in a lull and want something productive-adjacent. Ten minutes, one new mental model, moderate laugh."
+      },
+      {
+        "context": "Framework on-ramping",
+        "description": "The framework to hand someone who finds the serious frameworks intimidating. Once they've run this one, the rest feel less heavy."
+      }
+    ]
+  },
+  "relationships": {
+    "depends_on": [],
+    "extends": [],
+    "related_to": [],
+    "triggers": [],
+    "conflicts_with": [],
+    "parent_of": [],
+    "child_of": []
+  },
+  "evidence_base": {
+    "validation_sources": [
+      "Informal team testing, April 2026.",
+      "Pattern confirmed across multiple durable meme formats that map onto named psychological or economic phenomena."
+    ]
+  }
+}

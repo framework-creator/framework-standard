@@ -43,6 +43,7 @@ This spec is derived from a library of 611 frameworks built over two years. It f
 | `full-example.framework.json` | Every optional block. FILM-007 in canonical form. |
 | `render-004-example.framework.json` | Production framework. Audio-visual video production pipeline. |
 | `scope-community-example.framework.json` | Collaboration framework. AI partnership calibration. |
+| `meme-to-model-example.framework.json` | Playful framework. Turn any viral meme into a reusable mental model. Shows the format handles fun subjects, not just serious ones. |
 
 ## Quick start
 
