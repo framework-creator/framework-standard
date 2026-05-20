@@ -23,7 +23,7 @@ The format is designed so that:
 - A human can open the file in any editor and understand it.
 - Frameworks survive round-tripping between systems with no structural loss.
 
-This spec is derived from a library of 611 frameworks built over two years. It formalizes what was already working.
+This spec is derived from a library of 1100+ frameworks built over two years. It formalizes what was already working.
 
 ![Framework Library graph explorer showing 611 frameworks and 233 relationship edges, rendered as a force-directed constellation with series-colored clusters on a dark background.](assets/graph-preview.png)
 

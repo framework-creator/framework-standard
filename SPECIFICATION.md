@@ -15,7 +15,7 @@ A `.framework.json` file is a portable, self-contained description of a single r
 3. A human can open the file in any editor and read it.
 4. The format survives round-tripping: export from one tool, import into another, export again, with no structural loss.
 
-This spec is derived from the SIOS framework library (600+ files as of April 2026). It formalizes what is already working.
+This spec is derived from the SIOS framework library (1100+ files as of May 2026). It formalizes what is already working.
 
 ## 2. Top-level structure
 
